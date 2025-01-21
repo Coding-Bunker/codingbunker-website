@@ -1,5 +1,15 @@
 import { DateTime } from "luxon"
 
+interface MultiseletData{
+    id: string,
+    name: string,
+    color: string
+}
+
+export const getMultiSelectFromBlock = (block: any) : MultiseletData[] | undefined => {
+    return block?.["multi_select"] as MultiseletData[]
+}
+
 export const getPlainTextFromBlock = (block: any) : string | undefined => {
     if(!block?.type) return ""
     if(block.type == "rich_text"){
@@ -24,5 +34,5 @@ export const getDatetimeFromBlock = (block: any) : string | undefined => {
 }
 
 export const getUrl = (block: any) : string | undefined => {
-    return block.url
+    return block?.url
 }

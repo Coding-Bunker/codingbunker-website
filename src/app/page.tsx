@@ -52,6 +52,14 @@ const Home = async () => {
                 >
                   Proponi il tuo talk
                 </a>
+                <a
+                  className="group flex cursor-pointer flex-col gap-2 rounded-md border text-white p-2 transition-all duration-300 hover:bg-white hover:text-purple"
+                  href="https://forms.gle/okz6VZ9Uv8JcGTiS8"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Submit your talk 🇬🇧
+                </a>
           </div>
           <div className="custom-breadcrumbs flex flex-row gap-4 text-right items-center justify-end">
                 <a
