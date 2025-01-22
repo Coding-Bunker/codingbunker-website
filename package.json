@@ -11,6 +11,9 @@
     "lint": "next lint",
     "init:tailwind": "tailwindcss init tailwindcss.config.ts"
   },
+  "engines": {
+    "node": "22.13.1"
+  },
   "dependencies": {
     "@getbrevo/brevo": "^2.2.0",
     "@netlify/plugin-nextjs": "^5.9.3",
