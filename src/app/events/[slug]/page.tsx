@@ -6,6 +6,8 @@ import Image from "next/image"
 import {DateTime} from 'luxon'
 import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
 import TagChip from "@/components/TagChip"
+import React from "react"
+import classNames from "classnames"
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -28,6 +30,24 @@ export async function generateMetadata(
   }
 }
  
+interface RegisterHereProps{
+  link?: string,
+  isPast?: boolean
+  className?: string
+}
+
+export const RegisterHere : React.FC<RegisterHereProps> = ({link, isPast, className}) => {
+
+  if(!link || isPast) return <></>
+
+  return<a
+  href={link}
+  className={classNames(className, "text-center mt-4 inline-block text-white py-2 px-4 rounded border transition-all duration-300 hover:-translate-y-1.5")}
+  target="_blank"
+  rel="noreferrer"
+>Registrati qui</a>
+
+}
 
 export default async function Page({
   params,
@@ -40,13 +60,14 @@ export default async function Page({
 
     const tags = getMultiSelectFromBlock(pageData?.properties?.["Tags"]);
     const videoUrl = getUrl(pageData?.properties?.["Video Url"])
-    const registrationLink = getUrl(pageData?.properties["Registration Link"]) 
+    const registrationLink = getUrl(pageData?.properties["Registration link"]) 
     const venueMapLink = getPlainTextFromBlock(pageData?.properties["Venue Map Link"])
     const speakerCover = (pageData?.properties?.["Speaker Profile Image"] as any)?.files?.[0]?.file?.url
     const eventDate = DateTime.fromFormat(getPlainTextFromBlock(pageData?.properties["Date"]) || "", 'yyyy-MM-dd')
     // const cover = (pageData?.properties?.["Cover"] as any)?.files?.[0]?.file?.url
     //const speakerLinkedinUrl = getPlainTextFromBlock(pageData?.properties["Speaker Linkedin URL"])
     const isPast = eventDate < DateTime.now();
+    console.log(isPast, registrationLink)
 
     return <>
       {/* {cover && <Image width={900} height={500} src={cover} alt={getPlainTextFromBlock(pageData?.properties["Cover"]) || ""} />} */}      
@@ -69,6 +90,9 @@ export default async function Page({
               ))}
           </div>
       }
+      <div className="flex justify-center">
+      <RegisterHere link={registrationLink} isPast={isPast} className={"w-1/3"} />
+      </div>
       <div className="mb-8"></div>
       <article className="flex flex-col gap-6 md:flex-row md:justify-between md:gap-12">
       <div className="flex flex-col max-w-md md:max-w-lg md:w-2/3">
@@ -77,14 +101,7 @@ export default async function Page({
         }
           <p className="text-lg">{getPlainTextFromBlock(pageData?.properties["Description"])}</p>
           <div className="flex flex-row items-start gap-4">
-          {registrationLink && !isPast &&
-            <a
-              href={registrationLink}
-              className="mt-4 inline-block text-white py-2 px-4 rounded border transition-all duration-300 hover:-translate-y-1.5"
-              target="_blank"
-              rel="noreferrer"
-            >Registrati qui</a>
-          }
+          <RegisterHere link={registrationLink} isPast={isPast} />
           {venueMapLink && 
           <a
           href={venueMapLink}
