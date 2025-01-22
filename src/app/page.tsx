@@ -56,7 +56,7 @@ const Home = async () => {
                 </a>
                 <a
                   className="group flex cursor-pointer flex-col gap-2 rounded-md border text-white p-2 transition-all duration-300 hover:bg-white hover:text-purple"
-                  href="https://forms.gle/okz6VZ9Uv8JcGTiS8"
+                  href="https://forms.gle/3HMLtTWiPBwCFH1L9"
                   rel="noreferrer"
                   target="_blank"
                 >
