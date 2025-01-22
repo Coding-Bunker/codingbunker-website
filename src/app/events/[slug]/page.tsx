@@ -37,7 +37,6 @@ interface RegisterHereProps{
 }
 
 const RegisterHereButton : React.FC<RegisterHereProps> = ({link, isPast, className}) => {
-
   if(!link || isPast) return <></>
 
   return<a
