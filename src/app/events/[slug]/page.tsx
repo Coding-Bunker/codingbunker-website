@@ -36,7 +36,7 @@ interface RegisterHereProps{
   className?: string
 }
 
-export const RegisterHere : React.FC<RegisterHereProps> = ({link, isPast, className}) => {
+const RegisterHereButton : React.FC<RegisterHereProps> = ({link, isPast, className}) => {
 
   if(!link || isPast) return <></>
 
@@ -91,7 +91,7 @@ export default async function Page({
           </div>
       }
       <div className="flex justify-center">
-      <RegisterHere link={registrationLink} isPast={isPast} className={"w-1/3"} />
+      <RegisterHereButton link={registrationLink} isPast={isPast} className={"w-1/3"} />
       </div>
       <div className="mb-8"></div>
       <article className="flex flex-col gap-6 md:flex-row md:justify-between md:gap-12">
@@ -101,7 +101,7 @@ export default async function Page({
         }
           <p className="text-lg">{getPlainTextFromBlock(pageData?.properties["Description"])}</p>
           <div className="flex flex-row items-start gap-4">
-          <RegisterHere link={registrationLink} isPast={isPast} />
+          <RegisterHereButton link={registrationLink} isPast={isPast} />
           {venueMapLink && 
           <a
           href={venueMapLink}
