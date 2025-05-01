@@ -12,6 +12,7 @@ import GithubImage from "../assets/social/github.svg"
 import TelegramImage from "../assets/social/telegram.svg"
 import DiscordImage from "../assets/social/discord.svg"
 import CodemotionLogo from "../assets/partner/codemotion.png"
+import CondenseLogo from "../assets/partner/condense.png"
 import GruspLogo from "../assets/partner/grusp.png"
 import FBrodoliniLogo from "../assets/partner/fondazione-brodolini.png"
 
@@ -205,6 +206,15 @@ const Home = async () => {
               width={150}
               height={150}
               alt="GrUSP Logo"
+              className="transform transition duration-300 hover:scale-110"
+            />
+          </div>
+          <div className="flex items-center">
+            <Image
+              src={CondenseLogo}
+              width={150}
+              height={150}
+              alt="Condense Logo"
               className="transform transition duration-300 hover:scale-110"
             />
           </div>
