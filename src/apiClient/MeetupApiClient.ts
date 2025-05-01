@@ -14,7 +14,7 @@ const MeetupApiClient = () =>{
         exp: now + 60 * 5 // valido 5 minuti
         };
     
-        const token = jwt.sign(payload, process.env.MEETUP_PRIVATE_KEY, {
+        const token = jwt.sign(payload, process.env.MEETUP_PRIVATE_KEY!, {
         algorithm: 'RS256' // o HS256 se usi un secret HMAC
         });
     
