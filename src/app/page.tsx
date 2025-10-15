@@ -219,6 +219,16 @@ const Home = async () => {
             />
           </div>
         </section>
+        
+        <div className="w-full flex justify-center mt-12">
+          <Link
+            href="/staff"
+            className="text-sm text-white underline decoration-dashed underline-offset-8"
+            rel="noreferrer"
+          >
+            Vedi lo staff
+          </Link>
+        </div>
       </article>
     </>
   )
