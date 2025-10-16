@@ -220,7 +220,20 @@ const Home = async () => {
           </div>
         </section>
         
-        <div className="w-full flex justify-center mt-12">
+        <section className="mt-12">
+          <div className="bg-slate-900/40 rounded-md p-6 text-center text-white">
+            <h3 className="text-lg font-bold mb-2">Contatti</h3>
+            <p className="mb-3">Per qualsiasi informazione o richiesta, non esitare a contattarci qui:</p>
+            <a
+              href="mailto:info@codingbunker.it"
+              className="text-white underline decoration-dashed underline-offset-8"
+            >
+              info@codingbunker.it
+            </a>
+          </div>
+        </section>
+
+        <div className="w-full flex justify-center mt-8">
           <Link
             href="/staff"
             className="text-sm text-white underline decoration-dashed underline-offset-8"
