@@ -3,6 +3,7 @@ import Logo from "../assets/logo.svg"
 import "./globals.css"
 import Image from "next/image"
 import TeamImage from "../assets/team/team.png"
+import AnnouncementBar from "@/components/AnnouncementBar"
 
 export const metadata: Metadata = {
   title: "Coding bunker",
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="it">
       <body>
+        <AnnouncementBar />
         <div className="mx-auto flex min-h-screen max-w-4xl flex-col gap-9 px-10 py-8 md:gap-20 md:py-16">
           <header className="flex w-full flex-col gap-3 md:gap-2 md:flex-row md:justify-between pb-5 md:pb-0">
             <a href="/" className="text-xl">
