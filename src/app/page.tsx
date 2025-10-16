@@ -82,6 +82,20 @@ const Home = async () => {
               <Image width={30} height={30} src={GithubImage} alt="Github" />
             </a>
             <a
+              href="https://www.linkedin.com/company/coding-bunker/"
+              className="hover:scale-150 transition duration-300"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <Image
+                width={30}
+                height={30}
+                src={LinkedinImage}
+                alt="LinkedIn"
+                style={{ filter: "brightness(0) invert(1)" }}
+              />
+            </a>
+            <a
               href="https://discord.com/invite/9x4FqmTxDu"
               className="hover:scale-150 transition duration-300"
               rel="noreferrer"
