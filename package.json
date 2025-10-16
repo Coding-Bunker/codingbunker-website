@@ -12,7 +12,7 @@
     "init:tailwind": "tailwindcss init tailwindcss.config.ts"
   },
   "engines": {
-    "node": "22.13.1"
+    "node": ">=18"
   },
   "dependencies": {
     "@getbrevo/brevo": "^2.2.0",
