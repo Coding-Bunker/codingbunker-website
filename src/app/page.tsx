@@ -5,7 +5,6 @@ import SingleEventCard from "@/components/SingleEventCard"
 import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
 import Link from "next/link"
 
-import InstagramImage from "../assets/social/instagram.svg"
 import LinkedinImage from "../assets/social/linkedin.svg"
 import MeetupImage from "../assets/social/meetup.svg"
 import GithubImage from "../assets/social/github.svg"
@@ -15,6 +14,7 @@ import CodemotionLogo from "../assets/partner/codemotion.png"
 import CondenseLogo from "../assets/partner/condense.png"
 import GruspLogo from "../assets/partner/grusp.png"
 import FBrodoliniLogo from "../assets/partner/fondazione-brodolini.png"
+import MollieLogo from "../assets/partner/mollie.svg"
 
 const Home = async () => {
   const lastEvents = await NotionApiClient().fetchLastEvents()
@@ -229,6 +229,15 @@ const Home = async () => {
               width={150}
               height={150}
               alt="Condense Logo"
+              className="transform transition duration-300 hover:scale-110"
+            />
+          </div>
+          <div className="flex items-center">
+            <Image
+              src={MollieLogo}
+              width={100}
+              height={100}
+              alt="Mollie Logo"
               className="transform transition duration-300 hover:scale-110"
             />
           </div>
