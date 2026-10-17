@@ -331,6 +331,9 @@
 .section + .section { margin-top: clamp(34px, 5vw, 72px); }
 .page-intro { padding-bottom: clamp(20px, 3vw, 34px); }
 .hero { gap: clamp(44px, 8vw, 112px); }
+.hero { grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); }
+.hero h1 { max-width: 680px; font-size: clamp(2.7rem, 5vw, 5rem); text-wrap: balance; }
+.hero-copy { min-width: 0; }
 .hero-copy, .hero-image-wrap { animation: content-enter 620ms cubic-bezier(.22, .8, .24, 1) both; }
 .hero-image-wrap { animation-delay: 90ms; }
 .partner-card-dark { background: #24163b; border-color: #4f3c69; }
@@ -362,4 +365,9 @@ html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thi
   .section { margin-top: 22px; }
   .section + .section { margin-top: 34px; }
   .english-page .hero-image { min-height: 240px; }
+}
+
+@media (min-width: 761px) and (max-width: 980px) {
+  .hero { grid-template-columns: minmax(0, 1.15fr) minmax(240px, .85fr); gap: 36px; }
+  .hero h1 { font-size: clamp(2.6rem, 5.8vw, 4.2rem); }
 }

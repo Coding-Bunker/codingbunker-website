@@ -8,7 +8,7 @@ If Meetup is temporarily unavailable while building, the event sections stay emp
 
 ## Topic voting
 
-The homepage topic vote uses Netlify Forms. Submissions are stored in the Netlify project under **Forms → topic-vote**. To receive every vote by email, configure a form submission notification in the Netlify dashboard and set the recipient to the community inbox. The form redirects voters to `/grazie/` after a successful submission.
+The homepage topic vote uses FormSubmit and sends each selected topic to `info@codingbunker.it`, then redirects voters to `/grazie.html` (the static export path). FormSubmit may require a one-time confirmation of the recipient email after the first submission. No API key is stored in the repository.
 
 # Environment file
 
