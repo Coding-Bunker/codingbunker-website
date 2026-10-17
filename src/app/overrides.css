@@ -291,6 +291,7 @@
 @media (prefers-reduced-motion: reduce) {
   .event-card.event-card--visual { animation: none; }
   .event-card:hover .event-card-photo, .staff-card:hover { transform: none; }
+  .hero-copy, .hero-image-wrap { animation: none; }
 }
 
 /* A calmer rhythm for the denser pages. */
@@ -325,6 +326,32 @@
 .site-header nav a { transition: color 180ms ease, opacity 180ms ease; }
 .site-header nav a:hover { opacity: .72; }
 
+/* Keep each section visually distinct instead of letting adjacent backgrounds merge. */
+.section { margin-top: clamp(24px, 4vw, 52px); }
+.section + .section { margin-top: clamp(34px, 5vw, 72px); }
+.page-intro { padding-bottom: clamp(20px, 3vw, 34px); }
+.hero { gap: clamp(44px, 8vw, 112px); }
+.hero-copy, .hero-image-wrap { animation: content-enter 620ms cubic-bezier(.22, .8, .24, 1) both; }
+.hero-image-wrap { animation-delay: 90ms; }
+.partner-card-dark { background: #24163b; border-color: #4f3c69; }
+.partner-card-dark img { max-height: 116px; filter: brightness(1.08); }
+.current-partner .partner-card { min-height: 250px; }
+.legacy-partners { gap: 22px; }
+.legacy-partners .partner-card { min-height: 220px; }
+.staff-archive { margin-top: clamp(56px, 8vw, 96px); }
+.english-page .hero-image-wrap { min-width: 0; }
+.english-page .hero-image { min-height: 320px; object-fit: cover; }
+.english-page .section { margin-top: clamp(28px, 4vw, 56px); }
+.thanks-page { max-width: 720px; padding: clamp(42px, 8vw, 96px) 0; }
+.thanks-page > p:not(.eyebrow) { max-width: 580px; color: var(--muted); font-size: 1.2rem; }
+@keyframes content-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: var(--lavender); }
+::-webkit-scrollbar-thumb { border: 3px solid var(--lavender); border-radius: 999px; background: var(--purple-dark); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink); }
+
 @media (max-width: 760px) {
   .main-content { padding-bottom: 76px; }
   .section-heading { align-items: start; flex-direction: column; }
@@ -332,4 +359,7 @@
   .event-card-media { min-height: 188px; }
   .event-card-date { width: 68px; height: 68px; }
   .topic-vote-footer { align-items: start; flex-direction: column; }
+  .section { margin-top: 22px; }
+  .section + .section { margin-top: 34px; }
+  .english-page .hero-image { min-height: 240px; }
 }

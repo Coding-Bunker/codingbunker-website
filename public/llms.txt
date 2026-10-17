@@ -1,0 +1,26 @@
+# Coding Bunker
+
+Coding Bunker is an independent tech community in Milan for people who build software.
+
+## Canonical pages
+
+- https://www.codingbunker.it/
+- https://www.codingbunker.it/en
+- https://www.codingbunker.it/events
+- https://www.codingbunker.it/partners
+- https://www.codingbunker.it/press
+- https://www.codingbunker.it/staff
+- https://www.codingbunker.it/impatto-milano
+- https://www.codingbunker.it/code-of-conduct
+
+## Community actions
+
+- Events and registration: https://www.meetup.com/it-IT/coding-bunker/
+- Community photos: https://www.meetup.com/coding-bunker/photos/
+- Call for papers: https://sessionize.com/codingbunker/
+- Partnership request: https://forms.gle/FPca5upst1VTGFP86
+- Contact: mailto:info@codingbunker.it
+
+## Short description
+
+Coding Bunker organises free meetups, talks, open discussions and practical activities in Milan. The community values accessible technical knowledge, open collaboration and real-world experience.

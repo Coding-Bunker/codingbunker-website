@@ -6,6 +6,10 @@ The homepage and `/events` read the public Coding Bunker Meetup event page at bu
 
 If Meetup is temporarily unavailable while building, the event sections stay empty and link visitors to the official group page instead of showing stale invented data.
 
+## Topic voting
+
+The homepage topic vote uses Netlify Forms. Submissions are stored in the Netlify project under **Forms → topic-vote**. To receive every vote by email, configure a form submission notification in the Netlify dashboard and set the recipient to the community inbox. The form redirects voters to `/grazie/` after a successful submission.
+
 # Environment file
 
 ```
