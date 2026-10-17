@@ -4,10 +4,10 @@ import TeamImage from "../assets/team/team.png"
 import FondazioneBrodoliniLogo from "../assets/partner/fondazione-brodolini.png"
 import MeetupEventCard from "@/components/MeetupEventCard"
 import TopicVote from "@/components/TopicVote"
-import { fetchMeetupEvents, fetchMeetupPastEventCount, meetupEventsUrl, splitMeetupEvents } from "@/lib/meetup"
+import { fetchMeetupEvents, meetupEventsUrl, splitMeetupEvents } from "@/lib/meetup"
 
 export default async function Home() {
-  const [events, pastEventCount] = await Promise.all([fetchMeetupEvents(), fetchMeetupPastEventCount()])
+  const events = await fetchMeetupEvents()
   const { upcoming, past } = splitMeetupEvents(events)
   const nextEvent = upcoming[0]
   const attendees = past.reduce((total, event) => total + (event.attendeeCount || 0), 0)
@@ -18,7 +18,7 @@ export default async function Home() {
       <div className="hero-image-wrap"><Image src={TeamImage} alt="La community Coding Bunker durante un meetup" priority className="hero-image" /></div>
     </section>
 
-    <section className="proof-strip" aria-label="Coding Bunker in numeri"><div><strong>{pastEventCount || "—"}</strong><span>eventi organizzati su Meetup</span></div><div><strong>{attendees || "—"}</strong><span>partecipazioni agli eventi mostrati</span></div><div><strong>100%</strong><span>gratuito per chi partecipa</span></div></section>
+    <section className="proof-strip" aria-label="Coding Bunker in numeri"><div><strong>50+</strong><span>eventi organizzati</span></div><div><strong>{attendees || "—"}</strong><span>partecipazioni agli eventi mostrati</span></div><div><strong>100%</strong><span>gratuito per chi partecipa</span></div></section>
 
     <section className="section" aria-labelledby="next-event-heading"><div className="section-heading"><div><p className="eyebrow">In agenda</p><h2 id="next-event-heading">Il prossimo meetup</h2></div><a className="text-link" href={meetupEventsUrl} target="_blank" rel="noreferrer">Tutti gli eventi <span aria-hidden="true">↗</span></a></div>{nextEvent ? <MeetupEventCard event={nextEvent} featured /> : <div className="empty-state"><p>Stiamo preparando il prossimo meetup.</p><a className="button button-secondary" href={meetupEventsUrl} target="_blank" rel="noreferrer">Segui Coding Bunker su Meetup</a></div>}</section>
 
@@ -38,6 +38,6 @@ export default async function Home() {
 
     <section className="section partners-section" aria-labelledby="partners-heading"><div><p className="eyebrow">Partner attuale</p><h2 id="partners-heading">Fondazione Giacomo Brodolini</h2><p>Grazie a chi sostiene luoghi e occasioni di condivisione professionale, aperte alla community.</p><Link className="text-link" href="/partners">Scopri i partner <span aria-hidden="true">→</span></Link></div><div className="partner-card"><Image src={FondazioneBrodoliniLogo} alt="Fondazione Giacomo Brodolini" width={270} /></div></section>
 
-    <section className="section" aria-labelledby="past-events-heading"><div className="section-heading"><div><p className="eyebrow">Archivio</p><h2 id="past-events-heading">Gli ultimi meetup</h2></div><Link className="text-link" href="/events">Vedi l’archivio <span aria-hidden="true">→</span></Link></div>{past.length ? <div className="event-grid">{past.slice(0, 3).map((event) => <MeetupEventCard event={event} imageSrc={event.title.toLowerCase().includes("hacktoberfest") ? "/hacktoberfest-2026.jpeg" : undefined} key={event.id} />)}</div> : <p className="muted">Gli eventi passati saranno disponibili qui appena Meetup li pubblicherà.</p>}</section>
+    <section className="section" aria-labelledby="past-events-heading"><div className="section-heading"><div><p className="eyebrow">Archivio</p><h2 id="past-events-heading">Gli ultimi meetup</h2></div><div className="section-heading-links"><Link className="text-link" href="/events">Vedi l’archivio <span aria-hidden="true">→</span></Link><a className="text-link" href="https://www.meetup.com/coding-bunker/photos/" target="_blank" rel="noreferrer">Foto della community ↗</a></div></div>{past.length ? <div className="event-grid">{past.slice(0, 3).map((event) => <MeetupEventCard event={event} imageSrc={event.title.toLowerCase().includes("hacktoberfest") ? "/hacktoberfest-2026.jpeg" : undefined} key={event.id} />)}</div> : <p className="muted">Gli eventi passati saranno disponibili qui appena Meetup li pubblicherà.</p>}</section>
   </>
 }

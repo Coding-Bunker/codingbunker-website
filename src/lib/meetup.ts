@@ -34,6 +34,7 @@ type ApolloRecord = {
 }
 
 const EVENTS_URL = "https://www.meetup.com/it-IT/coding-bunker/events/"
+const PAST_EVENTS_URL = `${EVENTS_URL}?type=past`
 
 function getNextData(html: string): Record<string, unknown> | undefined {
   const match = html.match(
@@ -56,37 +57,36 @@ function getNextData(html: string): Record<string, unknown> | undefined {
  */
 export async function fetchMeetupEvents(): Promise<MeetupEvent[]> {
   try {
-    const response = await fetch(EVENTS_URL, {
-      next: { revalidate: 3600 },
-      headers: { "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)" },
-    })
-
-    if (!response.ok) return []
-
-    const page = getNextData(await response.text()) as {
-      props?: { pageProps?: { __APOLLO_STATE__?: Record<string, ApolloRecord> } }
-    }
-    const state = page?.props?.pageProps?.__APOLLO_STATE__
-    if (!state) return []
-
-    return Object.entries(state)
-      .filter(([, value]) => value.__typename === "Event" && value.id && value.title && value.dateTime && value.eventUrl)
-      .map(([key, event]) => {
-        const venueReference = event.venue?.__ref
-        const venue = venueReference ? state[venueReference] : undefined
-        return {
-          id: event.id || key,
-          title: event.title || "Evento Coding Bunker",
-          description: event.description || "",
-          dateTime: event.dateTime || "",
-          endTime: event.endTime,
-          eventUrl: event.eventUrl || EVENTS_URL,
-          status: event.status || "",
-          venue: venue?.name || null,
-          city: venue?.city || null,
-          attendeeCount: event.going?.totalCount ?? null,
-        }
+    const pages = await Promise.all([EVENTS_URL, PAST_EVENTS_URL].map(async (url) => {
+      const response = await fetch(url, {
+        next: { revalidate: 3600 },
+        headers: { "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)" },
       })
+      return response.ok ? getNextData(await response.text()) : undefined
+    }))
+    const events = pages.flatMap((page) => {
+      const state = (page as { props?: { pageProps?: { __APOLLO_STATE__?: Record<string, ApolloRecord> } } } | undefined)?.props?.pageProps?.__APOLLO_STATE__
+      if (!state) return []
+      return Object.entries(state)
+        .filter(([, value]) => value.__typename === "Event" && value.id && value.title && value.dateTime && value.eventUrl)
+        .map(([key, event]) => {
+          const venueReference = event.venue?.__ref
+          const venue = venueReference ? state[venueReference] : undefined
+          return {
+            id: event.id || key,
+            title: event.title || "Evento Coding Bunker",
+            description: event.description || "",
+            dateTime: event.dateTime || "",
+            endTime: event.endTime,
+            eventUrl: event.eventUrl || EVENTS_URL,
+            status: event.status || "",
+            venue: venue?.name || null,
+            city: venue?.city || null,
+            attendeeCount: event.going?.totalCount ?? null,
+          }
+        })
+    })
+    return [...new Map(events.map((event) => [event.id, event])).values()]
       .sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime())
   } catch {
     return []
