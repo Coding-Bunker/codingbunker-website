@@ -331,11 +331,17 @@
 .section + .section { margin-top: clamp(34px, 5vw, 72px); }
 .page-intro { padding-bottom: clamp(20px, 3vw, 34px); }
 .hero { gap: clamp(44px, 8vw, 112px); }
-.hero { grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); }
-.hero h1 { max-width: 680px; font-size: clamp(2.7rem, 5vw, 5rem); text-wrap: balance; }
+.hero { grid-template-columns: minmax(0, 1.12fr) minmax(340px, .88fr); }
+.hero h1 { max-width: 760px; font-size: clamp(2.65rem, 4.8vw, 5rem); text-wrap: balance; }
 .hero-copy { min-width: 0; }
 .hero-copy, .hero-image-wrap { animation: content-enter 620ms cubic-bezier(.22, .8, .24, 1) both; }
 .hero-image-wrap { animation-delay: 90ms; }
+.hero-image-wrap { position: relative; justify-self: end; width: min(100%, 540px); isolation: isolate; box-shadow: 16px 20px 0 var(--lavender), 0 28px 60px rgba(33,18,57,.13); transform: translateZ(0); animation: content-enter 620ms cubic-bezier(.22, .8, .24, 1) both, hero-float 8s ease-in-out 720ms infinite; }
+.hero-image-wrap::before { position: absolute; z-index: -1; inset: 12% -8% -10% 12%; border-radius: 42% 58% 54% 46%; background: radial-gradient(circle, rgba(165,118,255,.32), transparent 68%); filter: blur(20px); content: ""; animation: hero-glow 7s ease-in-out infinite; }
+.hero-image-wrap::after { position: absolute; z-index: 2; inset: 0; border: 1px solid rgba(255,255,255,.42); border-radius: inherit; content: ""; pointer-events: none; }
+.hero-image { transform: scale(1.015); transition: transform 700ms cubic-bezier(.2,.8,.2,1), filter 700ms ease; }
+.hero-image-wrap:hover .hero-image { transform: scale(1.07); filter: saturate(1.08) contrast(1.03); }
+.hero-image-wrap:hover { box-shadow: 18px 24px 0 var(--lavender), 0 34px 72px rgba(33,18,57,.19); }
 .partner-card-dark { background: #24163b; border-color: #4f3c69; }
 .partner-card-dark img { max-height: 116px; filter: brightness(1.08); }
 .current-partner .partner-card { min-height: 250px; }
@@ -348,6 +354,11 @@
 .thanks-page { max-width: 720px; padding: clamp(42px, 8vw, 96px) 0; }
 .thanks-page > p:not(.eyebrow) { max-width: 580px; color: var(--muted); font-size: 1.2rem; }
 @keyframes content-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(.35deg); } }
+@keyframes hero-glow { 0%, 100% { opacity: .62; transform: scale(.94); } 50% { opacity: .95; transform: scale(1.06); } }
+.event-grid .event-card:nth-child(2), .staff-grid .staff-card:nth-child(2), .legacy-partners .partner-card:nth-child(2) { animation-delay: 80ms; }
+.event-grid .event-card:nth-child(3), .staff-grid .staff-card:nth-child(3), .legacy-partners .partner-card:nth-child(3) { animation-delay: 160ms; }
+.event-grid .event-card, .staff-grid .staff-card, .legacy-partners .partner-card { animation: event-card-arrive 520ms cubic-bezier(.2,.8,.2,1) both; }
 
 html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thin; }
 ::-webkit-scrollbar { width: 11px; }
@@ -357,6 +368,8 @@ html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thi
 
 @media (max-width: 760px) {
   .main-content { padding-bottom: 76px; }
+  .hero { grid-template-columns: 1fr; gap: 42px; }
+  .hero-image-wrap { justify-self: stretch; width: 100%; max-width: none; }
   .section-heading { align-items: start; flex-direction: column; }
   .section-heading-links { gap: 10px 16px; }
   .event-card-media { min-height: 188px; }
@@ -368,6 +381,12 @@ html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thi
 }
 
 @media (min-width: 761px) and (max-width: 980px) {
-  .hero { grid-template-columns: minmax(0, 1.15fr) minmax(240px, .85fr); gap: 36px; }
+  .hero { grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr); gap: 36px; }
   .hero h1 { font-size: clamp(2.6rem, 5.8vw, 4.2rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy, .hero-image-wrap, .event-grid .event-card, .staff-grid .staff-card, .legacy-partners .partner-card { animation: none; }
+  .hero-image-wrap:hover .hero-image, .hero-image-wrap .hero-image { transform: none; }
+  .hero-image-wrap::before { animation: none; }
 }
