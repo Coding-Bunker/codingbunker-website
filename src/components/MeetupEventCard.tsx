@@ -1,4 +1,5 @@
 import { DateTime } from "luxon"
+import Image from "next/image"
 import type { MeetupEvent } from "@/lib/meetup"
 
 function conciseDescription(description: string) {
@@ -13,14 +14,17 @@ function conciseDescription(description: string) {
 export default function MeetupEventCard({
   event,
   featured = false,
+  imageSrc,
 }: {
   event: MeetupEvent
   featured?: boolean
+  imageSrc?: string
 }) {
   const date = DateTime.fromISO(event.dateTime).setLocale("it")
 
   return (
     <article className={`event-card ${featured ? "event-card-featured" : ""}`}>
+      {imageSrc && <Image className="event-card-photo" src={imageSrc} alt={`Foto dell'evento ${event.title}`} width={1600} height={1200} />}
       <div className="event-card-date" aria-label={date.toFormat("cccc dd LLLL yyyy, ore HH:mm")}>
         <span>{date.toFormat("dd LLL")}</span>
         <span>{date.toFormat("HH:mm")}</span>

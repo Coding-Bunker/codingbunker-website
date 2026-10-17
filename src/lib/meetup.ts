@@ -11,6 +11,13 @@ export type MeetupEvent = {
   attendeeCount?: number | null
 }
 
+export type MeetupGroupStats = {
+  members?: number
+  pastEvents?: number
+  rating?: number
+  ratingCount?: number
+}
+
 type ApolloRecord = {
   __typename?: string
   id?: string
@@ -83,6 +90,64 @@ export async function fetchMeetupEvents(): Promise<MeetupEvent[]> {
       .sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime())
   } catch {
     return []
+  }
+}
+
+/** Count supplied by the public Meetup group payload, not a local estimate. */
+export async function fetchMeetupPastEventCount(): Promise<number | undefined> {
+  try {
+    const response = await fetch(EVENTS_URL, {
+      next: { revalidate: 3600 },
+      headers: { "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)" },
+    })
+    if (!response.ok) return undefined
+
+    const page = getNextData(await response.text()) as {
+      props?: { pageProps?: { __APOLLO_STATE__?: Record<string, unknown> } }
+    }
+    const state = page?.props?.pageProps?.__APOLLO_STATE__
+    if (!state) return undefined
+
+    const group = Object.values(state).find((value) => (
+      typeof value === "object" && value !== null && (value as ApolloRecord).__typename === "Group"
+    )) as Record<string, unknown> | undefined
+    if (!group) return undefined
+
+    const pastEvents = Object.entries(group).find(([key]) => key.includes('"status":["PAST"]'))?.[1] as { totalCount?: number } | undefined
+    return typeof pastEvents?.totalCount === "number" ? pastEvents.totalCount : undefined
+  } catch {
+    return undefined
+  }
+}
+
+/** Public group metrics used with source attribution on the impact page. */
+export async function fetchMeetupGroupStats(): Promise<MeetupGroupStats> {
+  try {
+    const response = await fetch(EVENTS_URL, {
+      next: { revalidate: 3600 },
+      headers: { "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)" },
+    })
+    if (!response.ok) return {}
+
+    const page = getNextData(await response.text()) as {
+      props?: { pageProps?: { __APOLLO_STATE__?: Record<string, unknown> } }
+    }
+    const state = page?.props?.pageProps?.__APOLLO_STATE__
+    const group = state && Object.values(state).find((value) => (
+      typeof value === "object" && value !== null && (value as ApolloRecord).__typename === "Group"
+    )) as Record<string, unknown> | undefined
+    if (!group) return {}
+
+    const stats = group.stats as { memberCounts?: { all?: number }; eventRatings?: { average?: number; total?: number } } | undefined
+    const pastEvents = Object.entries(group).find(([key]) => key.includes('"status":["PAST"]'))?.[1] as { totalCount?: number } | undefined
+    return {
+      members: stats?.memberCounts?.all,
+      pastEvents: pastEvents?.totalCount,
+      rating: stats?.eventRatings?.average,
+      ratingCount: stats?.eventRatings?.total,
+    }
+  } catch {
+    return {}
   }
 }
 

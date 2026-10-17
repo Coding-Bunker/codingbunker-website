@@ -1,0 +1,26 @@
+import type { Metadata } from "next"
+import Link from "next/link"
+import { fetchMeetupGroupStats } from "@/lib/meetup"
+
+export const metadata: Metadata = { title: "Impatto a Milano | Coding Bunker", description: "Il contributo gratuito di Coding Bunker all'ecosistema tecnologico milanese." }
+
+const meetupUrl = "https://www.meetup.com/it-IT/coding-bunker/"
+const zigDayUrl = "https://zig.day/europe/milano/2/"
+
+export default async function ImpactPage() {
+  const stats = await fetchMeetupGroupStats()
+  const metrics = [
+    { value: stats.members?.toLocaleString("it-IT") || "—", label: "membri della community Meetup" },
+    { value: stats.pastEvents?.toLocaleString("it-IT") || "—", label: "eventi organizzati" },
+    { value: stats.rating ? `${stats.rating.toLocaleString("it-IT", { maximumFractionDigits: 1 })}/5` : "—", label: stats.ratingCount ? `valutazione su ${stats.ratingCount.toLocaleString("it-IT")} recensioni` : "valutazione Meetup" },
+  ]
+
+  return <>
+    <section className="impact-hero" aria-labelledby="impact-title"><p className="eyebrow">Coding Bunker Impact</p><h1 id="impact-title">La conoscenza tecnica è un bene della città.</h1><p>Milano non deve soltanto attrarre innovazione: deve creare le condizioni perché le persone possano condividerla, impararla e costruirla insieme. Gratuitamente.</p><div className="hero-actions"><a className="button button-primary" href="mailto:info@codingbunker.it?subject=Collaboriamo%20per%20Milano">Collabora con noi</a><Link className="button button-secondary" href="/press">Apri il press kit</Link></div></section>
+    <section className="impact-metrics" aria-label="Numeri della community">{metrics.map((metric) => <div key={metric.label}><strong>{metric.value}</strong><span>{metric.label}</span></div>)}<p>Numeri pubblici da Meetup, aggiornati in fase di build. <a href={meetupUrl} target="_blank" rel="noreferrer">Verifica la fonte ↗</a></p></section>
+    <section className="section impact-intro"><div><p className="eyebrow">Per Milano</p><h2>Un’infrastruttura civica per la conoscenza tech.</h2></div><div><p>Coding Bunker porta a Milano incontri in presenza in cui esperienza professionale, curiosità e voglia di fare si incontrano senza biglietti di ingresso. Non è una conferenza da consumare: è un luogo in cui partecipare, fare domande e restituire competenze alla community.</p><p>Il risultato è una rete più accessibile per chi entra nel settore, più connessa per chi ci lavora e più aperta per organizzazioni che vogliono contribuire al territorio.</p></div></section>
+    <section className="section impact-case" aria-labelledby="zig-heading"><div><p className="eyebrow">Un caso concreto</p><h2 id="zig-heading">Zig Day Milano</h2><p>Il sito ufficiale di Zig Day ringrazia Coding Bunker per aver messo a disposizione la location per Zig Day Milano #2. Documenta inoltre la partecipazione di Andrew Kelley e del core team Zig, oltre a sessioni collaborative, mentoring e sviluppo condiviso.</p><a className="text-link" href={zigDayUrl} target="_blank" rel="noreferrer">Leggi la documentazione ufficiale di Zig Day ↗</a></div><div className="impact-case-points"><p><strong>Conoscenza internazionale</strong><span>Un incontro locale che mette in dialogo la community milanese con persone e progetti di rilevanza internazionale.</span></p><p><strong>Apprendimento attivo</strong><span>Non solo ascolto: pairing, mentoring, domande e costruzione collaborativa.</span></p><p><strong>Accesso aperto</strong><span>Occasioni tecniche di qualità rese disponibili alla community.</span></p></div></section>
+    <section className="section impact-values" aria-labelledby="value-heading"><div className="section-heading"><div><p className="eyebrow">Il valore che generiamo</p><h2 id="value-heading">Più connessioni. Più competenze condivise. Più possibilità di partecipare.</h2></div></div><div className="reason-grid"><article><span>01</span><h3>Competenze accessibili</h3><p>Talk, discussioni e workshop gratuiti rendono esperienze professionali concrete disponibili a chi vuole imparare.</p></article><article><span>02</span><h3>Persone e luoghi</h3><p>Mettiamo in relazione professionisti, studenti, aziende, associazioni e spazi che credono nella crescita della città.</p></article><article><span>03</span><h3>Restituire valore</h3><p>Open source, mentoring e condivisione di pratica: la conoscenza produce più valore quando circola.</p></article></div></section>
+    <section className="section impact-invite" aria-labelledby="invite-heading"><div><p className="eyebrow">Un invito aperto</p><h2 id="invite-heading">Hai uno spazio, una rete o un progetto per Milano?</h2></div><div><p>Coding Bunker porta community, contenuti e cura organizzativa. Cerchiamo istituzioni, fondazioni, aziende, media e spazi che vogliano rendere l’innovazione più concreta e accessibile sul territorio.</p><div className="hero-actions"><a className="button button-primary" href="mailto:info@codingbunker.it?subject=Ospitiamo%20un%20evento%20Coding%20Bunker">Ospita un evento</a><a className="button button-secondary" href="mailto:info@codingbunker.it?subject=Partnership%20Coding%20Bunker">Parliamo di una partnership</a></div></div></section>
+  </>
+}
