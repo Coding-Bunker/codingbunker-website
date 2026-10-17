@@ -1,42 +1,16 @@
 import type { Metadata } from "next"
-import Logo from "../assets/logo.svg"
-import "./globals.css"
 import Image from "next/image"
+import Link from "next/link"
+import Logo from "../assets/logo.svg"
 import TeamImage from "../assets/team/team.png"
-import AnnouncementBar from "@/components/AnnouncementBar"
+import "./globals.css"
 
-export const metadata: Metadata = {
-  title: "Coding bunker",
-  icons: "/favicon.ico",
-  openGraph: {
-    title: "Coding bunker",
-    description:
-      "Unisciti a Coding Bunker, la community inclusiva per appassionati di programmazione e tecnologia. Scopri eventi, supporto per principianti ed esperti e proponi il tuo talk!",
-    images: TeamImage.src,
-    type: "website",
-    locale: "it_IT",
-    url: "https://www.codingbunker.it",
-  },
-}
+export const metadata: Metadata = { title: "Coding Bunker | Community tech a Milano", description: "Meetup gratuiti a Milano per chi costruisce software: esperienze reali, confronto tecnico e community.", icons: "/favicon.ico", openGraph: { title: "Coding Bunker", description: "La community di chi costruisce software.", images: TeamImage.src, type: "website", locale: "it_IT", url: "https://www.codingbunker.it" } }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return (
-    <html lang="it">
-      <body>
-        <AnnouncementBar />
-        <div className="mx-auto flex min-h-screen max-w-4xl flex-col gap-9 px-10 py-8 md:gap-20 md:py-16">
-          <header className="flex w-full flex-col gap-3 md:gap-2 md:flex-row md:justify-between pb-5 md:pb-0">
-            <a href="/" className="text-xl">
-              <Image src={Logo} alt="Coding Bunker Logo" height={32} />
-            </a>
-          </header>
-          <main className="flex flex-col">{children}</main>
-        </div>
-      </body>
-    </html>
-  )
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <html lang="it"><body>
+    <header className="site-header"><div className="shell nav"><Link href="/" className="brand" aria-label="Coding Bunker, home"><Image src={Logo} alt="Coding Bunker" height={34} priority /></Link><nav aria-label="Navigazione principale"><Link href="/events">Eventi</Link><Link href="/staff">Community</Link><a href="https://www.meetup.com/it-IT/coding-bunker/" target="_blank" rel="noreferrer">Meetup <span aria-hidden="true">↗</span></a></nav></div></header>
+    <main className="shell main-content">{children}</main>
+    <footer className="site-footer"><div className="shell footer-content"><div><p className="footer-brand">Coding Bunker</p><p>Una community indipendente per chi costruisce software.</p></div><div className="footer-links"><a href="https://t.me/codingbunker" target="_blank" rel="noreferrer">Telegram</a><a href="https://www.meetup.com/it-IT/coding-bunker/" target="_blank" rel="noreferrer">Meetup</a><Link href="/code-of-conduct">Code of Conduct</Link><a href="mailto:info@codingbunker.it">Contatti</a></div></div></footer>
+  </body></html>
 }

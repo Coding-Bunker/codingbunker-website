@@ -1,37 +1,14 @@
-import NotionApiClient from "@/apiClient/NotionApiClient"
-import SingleEventCard from "@/components/SingleEventCard"
-import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
-import { Metadata } from "next"
+import type { Metadata } from "next"
+import MeetupEventCard from "@/components/MeetupEventCard"
+import { fetchMeetupEvents, meetupEventsUrl, splitMeetupEvents } from "@/lib/meetup"
 
+export const metadata: Metadata = { title: "Eventi | Coding Bunker", description: "Prossimi meetup e archivio degli eventi Coding Bunker a Milano." }
 
-export const metadata: Metadata = {
-  title: 'Events | Coding bunker',
-  description: 'Coding Bunker Events',
+export default async function EventsPage() {
+  const { upcoming, past } = splitMeetupEvents(await fetchMeetupEvents())
+  return <>
+    <section className="page-intro"><p className="eyebrow">Eventi Coding Bunker</p><h1>Incontri per chi costruisce software.</h1><p>Le date e le iscrizioni arrivano direttamente dalla pagina ufficiale di Coding Bunker su Meetup.</p></section>
+    <section className="section" aria-labelledby="upcoming-events"><div className="section-heading"><h2 id="upcoming-events">Prossimi eventi</h2><a className="text-link" href={meetupEventsUrl} target="_blank" rel="noreferrer">Apri Meetup <span aria-hidden="true">↗</span></a></div>{upcoming.length ? <div className="event-grid">{upcoming.map((event) => <MeetupEventCard event={event} key={event.id} />)}</div> : <p className="muted">Non ci sono ancora eventi in calendario. Segui il gruppo Meetup per essere avvisatə.</p>}</section>
+    <section className="section" aria-labelledby="past-events"><div className="section-heading"><h2 id="past-events">Eventi passati</h2></div>{past.length ? <div className="event-grid">{past.map((event) => <MeetupEventCard event={event} key={event.id} />)}</div> : <p className="muted">L’archivio sarà disponibile qui appena Meetup lo rende pubblico.</p>}</section>
+  </>
 }
-
-export default async function Page() {
-
-    const pageData = await NotionApiClient().fetchPastEvents()
-    const nextEvent = await NotionApiClient().fetchNextEvent();
-
-    return <>
-      <h1 className="text-4xl font-bold mb-8">I nostri eventi</h1>
-      {nextEvent && 
-          <header className="flex flex-col justify-between gap-2 mt-5 mb-20">
-            <h3 className="text-lg font-bold">Registrati al prossimo evento</h3>
-            <SingleEventCard
-                  className="border-4"
-                  event={nextEvent as PageObjectResponse}
-                />
-          </header>
-      }
-      <article className="grid grid-cols-1 gap-4 sm:grid-cols-2 mx-auto">
-        {pageData.map((event : any) => (
-            <SingleEventCard
-              event={event as PageObjectResponse}
-              key={event.id}
-            />
-          ))}
-      </article>
-    </>
-  }
