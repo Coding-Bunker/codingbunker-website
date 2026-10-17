@@ -34,8 +34,6 @@ const NotionApiClient = () => {
     if (!process.env.NOTION_EVENTS_DATABASE) return undefined
     const data = await notionClient().databases.query({
       database_id: process.env.NOTION_EVENTS_DATABASE,
-      archived: false,
-      in_trash: false,
       page_size: 1,
       filter: {
         property: "slug",
@@ -58,8 +56,6 @@ const NotionApiClient = () => {
     if (!process.env.NOTION_EVENTS_DATABASE) return undefined
     const data = await notionClient().databases.query({
       database_id: process.env.NOTION_EVENTS_DATABASE,
-      archived: false,
-      in_trash: false,
       page_size: 1,
       sorts: [
         {
@@ -89,8 +85,6 @@ const NotionApiClient = () => {
     if (!process.env.NOTION_EVENTS_DATABASE) return []
     const data = await notionClient().databases.query({
       database_id: process.env.NOTION_EVENTS_DATABASE,
-      archived: false,
-      in_trash: false,
       page_size: 3,
       sorts: [
         {
@@ -120,8 +114,6 @@ const NotionApiClient = () => {
     if (!process.env.NOTION_EVENTS_DATABASE) return []
     const data = await notionClient().databases.query({
       database_id: process.env.NOTION_EVENTS_DATABASE,
-      archived: false,
-      in_trash: false,
       page_size: 1000,
       sorts: [
         {
@@ -151,8 +143,6 @@ const NotionApiClient = () => {
     if (!process.env.NOTION_EVENTS_DATABASE) return []
     const data = await notionClient().databases.query({
       database_id: process.env.NOTION_EVENTS_DATABASE,
-      archived: false,
-      in_trash: false,
       page_size: 1000,
       sorts: [
         {
@@ -169,8 +159,6 @@ const NotionApiClient = () => {
     if (!process.env.NOTION_CREW_DATABASE) return undefined
     const data = await notionClient().databases.query({
       database_id: process.env.NOTION_CREW_DATABASE,
-      archived: false,
-      in_trash: false,
     })
 
     return data
