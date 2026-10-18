@@ -17,7 +17,7 @@ export default async function Home() {
       <div className="hero-image-wrap"><Image src={TeamImage} alt="La community Coding Bunker durante un meetup" priority className="hero-image" /></div><HeroCodeMotifs />
     </section>
 
-    <section className="proof-strip" aria-label="Coding Bunker in numeri"><div><strong>500+</strong><span>persone raggiunte</span></div><div><strong>327</strong><span>partecipazioni agli eventi organizzati</span></div><div><strong>100%</strong><span>gratuito per chi partecipa</span></div></section>
+    <section className="proof-strip" aria-label="Coding Bunker in numeri"><div><strong>500+</strong><span>persone raggiunte</span></div><div><strong>50+</strong><span>eventi organizzati</span></div><div><strong>100%</strong><span>gratuito per chi partecipa</span></div></section>
 
     <section className="section" aria-labelledby="next-event-heading"><div className="section-heading"><div><p className="eyebrow">In agenda</p><h2 id="next-event-heading">Il prossimo meetup</h2></div><a className="text-link" href={meetupEventsUrl} target="_blank" rel="noreferrer">Tutti gli eventi <span aria-hidden="true">↗</span></a></div>{nextEvent ? <MeetupEventCard event={nextEvent} featured /> : <div className="empty-state"><p>Stiamo preparando il prossimo meetup.</p><a className="button button-secondary" href={meetupEventsUrl} target="_blank" rel="noreferrer">Segui Coding Bunker su Meetup</a></div>}</section>
 
