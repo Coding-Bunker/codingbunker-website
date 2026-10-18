@@ -4,7 +4,7 @@ const baseUrl = "https://www.codingbunker.it"
 export const dynamic = "force-static"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["/", "/en", "/events", "/impatto-milano", "/partners", "/partners/past", "/press", "/staff", "/aiuta-la-community", "/about-us", "/code-of-conduct"]
+  const routes = ["/", "/en", "/events", "/impatto-milano", "/partners", "/partners/past", "/press", "/staff", "/aiuta-la-community", "/about-us", "/code-of-conduct", "/contatti", "/contact"]
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
