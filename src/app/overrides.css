@@ -6,8 +6,47 @@
   left: 20px;
 }
 
+.not-found {
+  display: grid;
+  grid-template-columns: minmax(190px, .7fr) minmax(0, 1.3fr);
+  gap: clamp(32px, 8vw, 100px);
+  align-items: center;
+  min-height: min(620px, calc(100vh - 220px));
+  padding: clamp(32px, 7vw, 84px);
+  border-radius: 32px;
+  background: var(--ink);
+  color: #fff;
+  overflow: hidden;
+}
+
+.not-found-mark {
+  color: var(--purple);
+  font-size: clamp(5.5rem, 17vw, 12rem);
+  font-weight: 900;
+  line-height: .78;
+  letter-spacing: -.1em;
+}
+
+.not-found-content { max-width: 650px; }
+.not-found .eyebrow { color: #d9caff; }
+.not-found h1 { max-width: 620px; margin-bottom: 22px; }
+.not-found-description { max-width: 570px; color: #ddd4ed; font-size: clamp(1.05rem, 1.7vw, 1.2rem); }
+.not-found-actions { margin-top: 30px; }
+.not-found .button-secondary { border-color: #81739a; color: #fff; background: transparent; }
+.not-found .button-secondary:hover { background: #453466; border-color: #453466; }
+.not-found-links { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 28px; }
+.not-found-links a { color: #d9caff; font-size: .92rem; font-weight: 750; text-underline-offset: 4px; }
+.not-found-links a:hover { color: #fff; }
+
 @media (max-width: 760px) {
-  .back-to-top { bottom: 16px; left: 16px; }
+  .back-to-top { bottom: 16px; left: 16px;     .not-found {
+      grid-template-columns: 1fr;
+      gap: 38px;
+      min-height: auto;
+      padding: 42px 26px 48px;
+    }
+    .not-found-mark { font-size: clamp(5rem, 25vw, 8rem); }
+  }
 }
 
 .impact-hero {
