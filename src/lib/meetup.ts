@@ -9,6 +9,7 @@ export type MeetupEvent = {
   venue?: string | null
   city?: string | null
   attendeeCount?: number | null
+  coverImageUrl?: string | null
 }
 
 export type MeetupGroupStats = {
@@ -31,6 +32,9 @@ type ApolloRecord = {
   going?: { totalCount?: number }
   name?: string
   city?: string
+  displayPhoto?: { __ref?: string } | null
+  featuredEventPhoto?: { __ref?: string } | null
+  highResUrl?: string
 }
 
 const EVENTS_URL = "https://www.meetup.com/it-IT/coding-bunker/events/"
@@ -72,6 +76,8 @@ export async function fetchMeetupEvents(): Promise<MeetupEvent[]> {
         .map(([key, event]) => {
           const venueReference = event.venue?.__ref
           const venue = venueReference ? state[venueReference] : undefined
+          const photoReference = event.displayPhoto?.__ref || event.featuredEventPhoto?.__ref
+          const photo = photoReference ? state[photoReference] : undefined
           return {
             id: event.id || key,
             title: event.title || "Evento Coding Bunker",
@@ -83,6 +89,7 @@ export async function fetchMeetupEvents(): Promise<MeetupEvent[]> {
             venue: venue?.name || null,
             city: venue?.city || null,
             attendeeCount: event.going?.totalCount ?? null,
+            coverImageUrl: typeof photo?.highResUrl === "string" ? photo.highResUrl : null,
           }
         })
     })
