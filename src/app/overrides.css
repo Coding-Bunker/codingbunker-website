@@ -44,10 +44,15 @@
 
 .impact-intro, .impact-case, .impact-invite { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 80px); }
 .impact-intro > div:last-child, .impact-invite > div:last-child { color: #484057; font-size: 1.08rem; }
-.impact-case { padding: clamp(30px, 5vw, 58px); border-radius: 28px; background: var(--lavender); }
-.impact-case-points { display: grid; gap: 14px; }
-.impact-case-points p { display: grid; grid-template-columns: 145px 1fr; gap: 16px; padding: 16px 0; margin: 0; border-top: 1px solid #d3c6ee; }
-.impact-case-points span { color: var(--muted); }
+.impact-case { align-items: start; padding: clamp(32px, 5vw, 58px); border-radius: 28px; background: var(--lavender); }
+.impact-case > div:first-child { min-width: 0; }
+.impact-case > div:first-child p { max-width: 62ch; margin-bottom: 22px; color: #484057; font-size: 1.05rem; line-height: 1.65; }
+.impact-case > div:first-child .text-link { line-height: 1.45; }
+.impact-case-points { display: grid; gap: 0; }
+.impact-case-points p { display: grid; grid-template-columns: minmax(150px, .7fr) 1.3fr; gap: 24px; padding: 20px 0; margin: 0; border-top: 1px solid #d3c6ee; }
+.impact-case-points p:last-child { padding-bottom: 0; }
+.impact-case-points strong { line-height: 1.35; }
+.impact-case-points span { color: var(--muted); line-height: 1.55; }
 .impact-invite { padding: clamp(30px, 5vw, 58px); border: 1px solid var(--line); border-radius: 28px; }
 
 .press-page { max-width: 820px; }
@@ -75,7 +80,8 @@
   .impact-metrics { grid-template-columns: 1fr; }
   .impact-metrics > p { grid-column: auto; }
   .impact-intro, .impact-case, .impact-invite { grid-template-columns: 1fr; }
-  .impact-case-points p { grid-template-columns: 1fr; gap: 4px; }
+  .impact-case { padding: 30px 24px; }
+  .impact-case-points p { grid-template-columns: 1fr; gap: 8px; padding: 18px 0; }
 }
 
 .history-section, .community-day {
@@ -448,7 +454,7 @@
 .hacktoberfest-requirements li { position: relative; padding-left: 28px; }
 .hacktoberfest-requirements li::before { position: absolute; top: .55em; left: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--purple); content: ""; }
 .hacktoberfest-winners { max-width: none; }
-.hacktoberfest-winner-grid { grid-template-columns: repeat(4, 1fr); }
+.hacktoberfest-winner-grid { grid-template-columns: repeat(3, 1fr); }
 .hacktoberfest-winner-grid article { display: flex; flex-direction: column; }
 .hacktoberfest-winner-category { color: var(--purple-dark) !important; font-size: .74rem; font-weight: 850; letter-spacing: .04em; text-transform: uppercase; }
 .hacktoberfest-winner-grid h3 { font-size: 1.35rem; }
