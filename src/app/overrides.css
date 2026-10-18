@@ -304,7 +304,6 @@
 .main-content { padding-top: clamp(52px, 7vw, 88px); }
 .page-intro, .staff-intro, .help-hero { margin-bottom: 8px; }
 .page-intro > p:last-of-type, .staff-intro > p:last-of-type, .help-hero > p:last-of-type { max-width: 700px; margin-bottom: 0; }
-.section { padding-top: clamp(72px, 9vw, 116px); }
 .section-heading { margin-bottom: 32px; }
 .section-heading-links { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
 .event-grid { gap: 20px; }
@@ -333,19 +332,16 @@
 .site-header nav a:hover { opacity: .72; }
 
 /* Keep each section visually distinct instead of letting adjacent backgrounds merge. */
-.section { margin-top: 0; padding-top: clamp(64px, 8vw, 96px); }
-.section + .section { margin-top: 0; padding-top: clamp(72px, 9vw, 112px); }
+.section { margin-top: clamp(72px, 8vw, 104px); padding-top: 0; }
+.section + .section { margin-top: clamp(72px, 8vw, 104px); padding-top: 0; }
 .page-intro { padding-bottom: clamp(20px, 3vw, 34px); }
 .hero { position: relative; gap: clamp(44px, 8vw, 112px); }
 .hero { grid-template-columns: minmax(0, 1.12fr) minmax(340px, .88fr); }
-.hero { isolation: isolate; }
-.hero::before { position: absolute; z-index: -1; top: 8%; right: -4%; width: 48%; height: 82%; border: 1px solid rgba(165,118,255,.12); border-radius: 46% 54% 52% 48%; background: radial-gradient(circle at 55% 45%, rgba(165,118,255,.14), transparent 68%); content: ""; pointer-events: none; animation: hero-aura 11s ease-in-out infinite; }
 .hero h1 { max-width: 760px; font-size: clamp(2.65rem, 4.8vw, 5rem); text-wrap: balance; }
 .hero-copy { min-width: 0; }
 .hero-copy, .hero-image-wrap { animation: content-enter 620ms cubic-bezier(.22, .8, .24, 1) both; }
 .hero-image-wrap { animation-delay: 90ms; }
 .hero-image-wrap { position: relative; justify-self: end; width: min(100%, 540px); isolation: isolate; box-shadow: 16px 20px 0 var(--lavender), 0 28px 60px rgba(33,18,57,.13); transform: translateZ(0); animation: content-enter 620ms cubic-bezier(.22, .8, .24, 1) both, hero-float 8s ease-in-out 720ms infinite; }
-.hero-image-wrap::before { position: absolute; z-index: -1; inset: 12% -8% -10% 12%; border-radius: 42% 58% 54% 46%; background: radial-gradient(circle, rgba(165,118,255,.32), transparent 68%); filter: blur(20px); content: ""; animation: hero-glow 7s ease-in-out infinite; }
 .hero-image-wrap::after { position: absolute; z-index: 2; inset: 0; border: 1px solid rgba(255,255,255,.42); border-radius: inherit; content: ""; pointer-events: none; }
 .hero-image { transform: scale(1.015); transition: transform 700ms cubic-bezier(.2,.8,.2,1), filter 700ms ease; }
 .hero-image-wrap:hover .hero-image { transform: scale(1.07); filter: saturate(1.08) contrast(1.03); }
@@ -391,6 +387,14 @@
 .format-points { gap: 10px; margin-top: 30px; }
 .format-points span { padding: 8px 14px; }
 .current-partner .partner-card { background: #fff; border-color: var(--line); color: var(--ink); }
+.hacktoberfest-home-card { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; padding: clamp(30px, 5vw, 54px); border-radius: 28px; background: linear-gradient(135deg, #211239, #4b2c79); color: #fff; }
+.hacktoberfest-home-card .eyebrow { color: #d9caff; }
+.hacktoberfest-home-card h2 { margin-bottom: 14px; }
+.hacktoberfest-home-card p:not(.eyebrow) { max-width: 680px; margin-bottom: 24px; color: #e2d9f0; font-size: 1.05rem; }
+.hacktoberfest-home-card .button-primary { background: #c3a5ff; border-color: #c3a5ff; }
+.hacktoberfest-home-meta { display: grid; min-width: 150px; padding: 24px; border: 1px solid rgba(217,202,255,.3); border-radius: 20px; background: rgba(255,255,255,.08); text-align: center; }
+.hacktoberfest-home-meta strong { font-size: 3.4rem; line-height: 1; letter-spacing: -.08em; }
+.hacktoberfest-home-meta span { color: #d9caff; font-size: .82rem; }
 .site-footer { margin-top: clamp(76px, 10vw, 132px); padding: 64px 0 22px; background: var(--ink); color: #fff; }
 .footer-content { display: grid; grid-template-columns: minmax(220px, .8fr) 1.2fr; gap: clamp(42px, 9vw, 120px); }
 .footer-intro { max-width: 300px; }
@@ -458,13 +462,11 @@
 .staff-archive { margin-top: clamp(56px, 8vw, 96px); }
 .english-page .hero-image-wrap { min-width: 0; }
 .english-page .hero-image { min-height: 320px; object-fit: cover; }
-.english-page .section { margin-top: 0; padding-top: clamp(64px, 8vw, 96px); }
+.english-page .section { margin-top: clamp(72px, 8vw, 104px); padding-top: 0; }
 .thanks-page { max-width: 720px; padding: clamp(42px, 8vw, 96px) 0; }
 .thanks-page > p:not(.eyebrow) { max-width: 580px; color: var(--muted); font-size: 1.2rem; }
 @keyframes content-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes hero-float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(.35deg); } }
-@keyframes hero-glow { 0%, 100% { opacity: .62; transform: scale(.94); } 50% { opacity: .95; transform: scale(1.06); } }
-@keyframes hero-aura { 0%, 100% { opacity: .52; transform: rotate(-2deg) scale(.96); } 50% { opacity: .9; transform: rotate(2deg) scale(1.03); } }
 @keyframes code-motif-float { 0%, 100% { margin-top: 0; opacity: .7; } 50% { margin-top: -10px; opacity: .98; } }
 .event-grid .event-card:nth-child(2), .staff-grid .staff-card:nth-child(2), .legacy-partners .partner-card:nth-child(2) { animation-delay: 80ms; }
 .event-grid .event-card:nth-child(3), .staff-grid .staff-card:nth-child(3), .legacy-partners .partner-card:nth-child(3) { animation-delay: 160ms; }
@@ -485,8 +487,7 @@ html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thi
   .event-card-media { min-height: 188px; }
   .event-card-date { width: 68px; height: 68px; }
   .topic-vote-footer { align-items: start; flex-direction: column; }
-  .section { margin-top: 0; padding-top: 56px; }
-  .section + .section { margin-top: 0; padding-top: 64px; }
+  .section, .section + .section { margin-top: 56px; padding-top: 0; }
   .section-heading { gap: 14px; margin-bottom: 22px; }
   .event-grid, .reason-grid, .legacy-partners { gap: 14px; }
   .event-card--visual .event-card-content { padding: 22px 20px 24px; }
@@ -497,7 +498,6 @@ html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thi
   .contact-grid { margin-top: 34px; }
   .contact-card { min-height: 240px; }
   .contact-note { margin-top: 64px; }
-  .hero::before { right: 0; width: 82%; height: 48%; opacity: .55; }
   .reasons-section .reason-grid { gap: 14px; }
   .reasons-section .reason-grid article { min-height: 0; padding: 24px; }
   .score-section { padding: 30px 24px; }
@@ -509,6 +509,8 @@ html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thi
   .hacktoberfest-category-grid, .hacktoberfest-types, .hacktoberfest-winner-grid { gap: 14px; margin-top: 24px; }
   .hacktoberfest-surface { padding: 30px 22px; }
   .hacktoberfest-gallery-cta { align-items: flex-start; flex-direction: column; margin-top: 64px; }
+  .hacktoberfest-home-card { grid-template-columns: 1fr; gap: 24px; }
+  .hacktoberfest-home-meta { justify-self: start; min-width: 136px; }
   .english-page .hero-image { min-height: 240px; }
   .hero-code-motifs { display: none; }
 }
@@ -516,15 +518,12 @@ html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thi
 @media (min-width: 761px) and (max-width: 980px) {
   .hero { grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr); gap: 36px; }
   .hero h1 { font-size: clamp(2.6rem, 5.8vw, 4.2rem); }
-  .section { padding-top: 72px; }
-  .section + .section { padding-top: 84px; }
+  .section, .section + .section { margin-top: 72px; padding-top: 0; }
   .event-card--visual .event-card-content { padding: 22px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-copy, .hero-image-wrap, .event-grid .event-card, .staff-grid .staff-card, .legacy-partners .partner-card { animation: none; }
   .hero-image-wrap:hover .hero-image, .hero-image-wrap .hero-image { transform: none; }
-  .hero-image-wrap::before { animation: none; }
   .hero-code-motif { animation: none; }
-  .hero::before { animation: none; }
 }

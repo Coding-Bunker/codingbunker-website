@@ -31,11 +31,13 @@ const requirements = [
   "Rispetto dello standard Agent Skills nel caso delle skill.",
 ]
 
-const winners = [
-  ["Best Developer Tool", "Vouch explorer", "Un’app web che aiuta a valutare contributori open source.", "Fabian Hogger"],
-  ["Best AI for Good", "Gluco", "Un assistente intelligente che aiuta chi soffre di diabete a prevedere e bloccare i picchi glicemici prima che si verifichino.", "Andrea Rossi, Enzo Sbarra, Francesco Sangalli, Riccardo Sironi"],
-  ["Most Creative Hack", "Unfold", "Un progetto che rende comprensibili oggetti complessi e nascosti dell’ingegneria attraverso l’esplorazione.", "Gabriele Digilio"],
-  ["Best use of Gemma 4", "Fluffy Photo", "Analizza una fotografia mentre la gara è ancora in corso: estrae ciò che accade nell’immagine direttamente dalla fotocamera.", "Gianni Bombelli"],
+const projects = [
+  ["Best use of Gemma 4 · Winner", "Fluffy Photo", "Legge ogni foto appena arriva dalla fotocamera ed estrae ciò che sta succedendo nell’immagine mentre la gara è ancora in corso.", "Gianni Bombelli"],
+  ["Best Developer Tool · Winner", "Vouch explorer", "Un’app web che aiuta a valutare i contributori open source.", "Fabian Hogger"],
+  ["Most Creative Hack · Winner", "Unfold", "Rende più comprensibili oggetti complessi che usiamo ogni giorno, mostrando l’ingegneria nascosta al loro interno.", "Gabriele Digilio"],
+  ["Progetto partecipante", "FuoriSaver", "Un assistente locale e basato sull’AI per gestire l’inventario alimentare, pensato anche per studenti e persone che vivono lontano da casa.", "Team FuoriSaver"],
+  ["Best Open-Source AI Project · Winner · Best AI for Good · Winner", "Gluco", "Un assistente intelligente che aiuta chi soffre di diabete a prevedere e bloccare i picchi glicemici prima che si verifichino.", "Andrea Rossi, Enzo Sbarra, Francesco Sangalli, Riccardo Sironi"],
+  ["Progetto partecipante", "Hikari", "Un workflow automatizzato di code review con GitHub Actions e Playwright per individuare errori nel frontend.", "Edward K. Aiddo, Marcelo Kaihara, Leonardo Cavalleri"],
 ]
 
 export default function HacktoberfestPage() {
@@ -47,7 +49,7 @@ export default function HacktoberfestPage() {
         <p className="hacktoberfest-lede">Una giornata per costruire, sperimentare e condividere progetti open source con AI open-weight, insieme alla community.</p>
         <div className="hero-actions"><a className="button button-primary" href="https://www.mlh.com/events/hacktoberfest-hack-day-milano-x-coding-bunker/submissions" target="_blank" rel="noreferrer">Vedi i progetti e le submission ↗</a><a className="button button-secondary" href="https://www.meetup.com/coding-bunker/photos/36222500/" target="_blank" rel="noreferrer">Guarda le foto dell&apos;evento ↗</a></div>
       </div>
-      <div className="hacktoberfest-hero-image"><Image src="/hacktoberfest-milan-2026.png" alt="Progetti vincitori dell'Hacktoberfest Hack Day Milano 2026" width={968} height={768} priority /></div>
+      <div className="hacktoberfest-hero-image"><Image src="/hacktoberfest-2026.jpeg" alt="Foto di gruppo dell'Hacktoberfest Hack Day Milano 2026" width={1600} height={1200} priority /></div>
     </header>
 
     <section className="hacktoberfest-stats" aria-label="Hacktoberfest Milan 2026 in numeri"><div><strong>39</strong><span>partecipanti</span></div><div><strong>3</strong><span>categorie principali</span></div><div><strong>100%</strong><span>open source e sperimentazione</span></div></section>
@@ -58,7 +60,7 @@ export default function HacktoberfestPage() {
 
     <section className="section hacktoberfest-section"><div className="section-heading"><div><p className="eyebrow">Regole aperte, contributi reali</p><h2>Requisiti dei progetti</h2></div></div><ul className="hacktoberfest-requirements">{requirements.map((requirement) => <li key={requirement}>{requirement}</li>)}</ul><p className="hacktoberfest-goal">L&apos;obiettivo è sperimentare, imparare qualcosa di nuovo e soprattutto creare qualcosa di utile da condividere con la community.</p></section>
 
-    <section className="section hacktoberfest-section hacktoberfest-winners"><div className="section-heading"><div><p className="eyebrow">I risultati</p><h2>I progetti vincitori</h2></div><a className="text-link" href="https://www.mlh.com/events/hacktoberfest-hack-day-milano-x-coding-bunker/submissions" target="_blank" rel="noreferrer">Tutte le submission ↗</a></div><div className="hacktoberfest-winner-grid">{winners.map(([category, title, description, authors]) => <article key={title}><p className="hacktoberfest-winner-category">🏆 {category}</p><h3>{title}</h3><p>{description}</p><p className="hacktoberfest-authors">{authors}</p></article>)}</div></section>
+    <section className="section hacktoberfest-section hacktoberfest-winners"><div className="section-heading"><div><p className="eyebrow">I risultati</p><h2>I progetti e i premi</h2></div><a className="text-link" href="https://www.mlh.com/events/hacktoberfest-hack-day-milano-x-coding-bunker/submissions" target="_blank" rel="noreferrer">Tutte le submission ↗</a></div><div className="hacktoberfest-winner-grid">{projects.map(([category, title, description, authors]) => <article key={title}><p className="hacktoberfest-winner-category">{category.includes("Winner") ? "🏆 " : ""}{category}</p><h3>{title}</h3><p>{description}</p><p className="hacktoberfest-authors">{authors}</p></article>)}</div></section>
 
     <section className="hacktoberfest-gallery-cta"><div><p className="eyebrow">Una giornata da ricordare</p><h2>Guarda le foto dell&apos;Hacktoberfest Milan 2026.</h2></div><a className="button button-primary" href="https://www.meetup.com/coding-bunker/photos/36222500/" target="_blank" rel="noreferrer">Apri l&apos;album su Meetup ↗</a></section>
   </article>
