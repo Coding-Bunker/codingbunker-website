@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const paths = [
   ["Partecipa a un meetup", "Segui il calendario e trova il prossimo incontro gratuito a Milano.", "https://www.meetup.com/it-IT/coding-bunker/", "Vedi gli eventi ↗"],
-  ["Proponi un talk", "Condividi un’esperienza concreta attraverso la call for papers di Coding Bunker.", "https://sessionize.com/codingbunker/", "Invia una proposta ↗"],
+  ["Proponi un talk", "Condividi un’esperienza concreta proponendo un talk per un meetup Coding Bunker.", "https://sessionize.com/codingbunker/", "Invia una proposta ↗"],
   ["Offri una location", "Hai uno spazio adatto a una serata community? Raccontacelo nel form partnership.", "https://forms.gle/FPca5upst1VTGFP86", "Proponi una location ↗"],
   ["Scrivi allo staff", "Per stampa, collaborazioni o domande non incluse negli altri percorsi.", "mailto:info@codingbunker.it", "Contatta lo staff ↗"],
 ]
