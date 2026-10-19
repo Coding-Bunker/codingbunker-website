@@ -16,13 +16,31 @@ export default function FloatingControls() {
   useEffect(() => {
     const footer = document.querySelector(".site-footer")
     if (!footer) return
-    const observer = new IntersectionObserver(([entry]) => setFooterVisible(entry.isIntersecting), { threshold: 0.05 })
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0.05 },
+    )
     observer.observe(footer)
     return () => observer.disconnect()
   }, [])
 
-  return <>
-    <button className={`back-to-top ${visible && !footerVisible ? "is-visible" : ""}`} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Torna all'inizio">↑ <span>Torna su</span></button>
-    <a className="telegram-fab" href="https://t.me/codingbunker" target="_blank" rel="noreferrer"><span aria-hidden="true">✦</span> Unisciti su Telegram</a>
-  </>
+  return (
+    <>
+      <button
+        className={`back-to-top ${visible && !footerVisible ? "is-visible" : ""}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Torna all'inizio"
+      >
+        ↑ <span>Torna su</span>
+      </button>
+      <a
+        className="telegram-fab"
+        href="https://t.me/codingbunker"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <span aria-hidden="true">✦</span> Unisciti su Telegram
+      </a>
+    </>
+  )
 }

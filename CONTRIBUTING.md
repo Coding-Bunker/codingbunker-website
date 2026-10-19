@@ -1,4 +1,4 @@
- # Contributing to Coding Bunker Website
+# Contributing to Coding Bunker Website
 
 Thank you for considering contributing to Coding Bunker Website! We welcome all contributions, big and small. Please follow the guidelines below to get started.
 
@@ -8,6 +8,5 @@ Thank you for considering contributing to Coding Bunker Website! We welcome all 
 2. **Set up the Project**: Follow the instructions in the `README.md` file to set up the project locally and ensure all dependencies are installed.
 3. **Create a Branch**: Create a new branch for your feature or bug fix.
    - Branch naming convention: `feature/[feature-name]` or `bugfix/[issue-number]-[short-description]`
-
 
 Thank you for contributing!

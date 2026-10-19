@@ -15,7 +15,12 @@ export default function HeroCodeMotifs() {
 
   useEffect(() => {
     const container = containerRef.current
-    if (!container || window.matchMedia("(prefers-reduced-motion: reduce)").matches || !window.matchMedia("(pointer: fine)").matches) return
+    if (
+      !container ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !window.matchMedia("(pointer: fine)").matches
+    )
+      return
 
     let frame = 0
     const handlePointerMove = (event: PointerEvent) => {
@@ -24,8 +29,14 @@ export default function HeroCodeMotifs() {
       const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2
       cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
-        container.style.setProperty("--pointer-x", `${Math.max(-1, Math.min(1, x))}`)
-        container.style.setProperty("--pointer-y", `${Math.max(-1, Math.min(1, y))}`)
+        container.style.setProperty(
+          "--pointer-x",
+          `${Math.max(-1, Math.min(1, x))}`,
+        )
+        container.style.setProperty(
+          "--pointer-y",
+          `${Math.max(-1, Math.min(1, y))}`,
+        )
       })
     }
     const resetPointer = () => {
@@ -45,5 +56,16 @@ export default function HeroCodeMotifs() {
     }
   }, [])
 
-  return <div className="hero-code-motifs" ref={containerRef} aria-hidden="true">{motifs.map((motif) => <span className={`hero-code-motif ${motif.className}`} key={motif.className}>{motif.symbol}</span>)}</div>
+  return (
+    <div className="hero-code-motifs" ref={containerRef} aria-hidden="true">
+      {motifs.map((motif) => (
+        <span
+          className={`hero-code-motif ${motif.className}`}
+          key={motif.className}
+        >
+          {motif.symbol}
+        </span>
+      ))}
+    </div>
+  )
 }
