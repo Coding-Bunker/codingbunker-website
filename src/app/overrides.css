@@ -370,8 +370,8 @@
 .site-header nav a:hover { opacity: .72; }
 
 /* Keep each section visually distinct instead of letting adjacent backgrounds merge. */
-.section { margin-top: clamp(72px, 8vw, 104px); padding-top: 0; }
-.section + .section { margin-top: clamp(72px, 8vw, 104px); padding-top: 0; }
+.section { margin-top: clamp(72px, 8vw, 104px); }
+.section + .section { margin-top: clamp(72px, 8vw, 104px); }
 .page-intro { padding-bottom: clamp(20px, 3vw, 34px); }
 .hero { position: relative; gap: clamp(44px, 8vw, 112px); }
 .hero { grid-template-columns: minmax(0, 1.12fr) minmax(340px, .88fr); }
@@ -526,7 +526,7 @@
 .staff-archive { margin-top: clamp(56px, 8vw, 96px); }
 .english-page .hero-image-wrap { min-width: 0; }
 .english-page .hero-image { min-height: 320px; object-fit: cover; }
-.english-page .section { margin-top: clamp(72px, 8vw, 104px); padding-top: 0; }
+.english-page .section { margin-top: clamp(72px, 8vw, 104px); }
 .thanks-page { max-width: 720px; padding: clamp(42px, 8vw, 96px) 0; }
 .thanks-page > p:not(.eyebrow) { max-width: 580px; color: var(--muted); font-size: 1.2rem; }
 @keyframes content-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
@@ -551,7 +551,7 @@ html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thi
   .event-card-media { min-height: 188px; }
   .event-card-date { width: 68px; height: 68px; }
   .topic-vote-footer { align-items: start; flex-direction: column; }
-  .section, .section + .section { margin-top: 56px; padding-top: 0; }
+  .section, .section + .section { margin-top: 56px; }
   .section-heading { gap: 14px; margin-bottom: 22px; }
   .event-grid, .reason-grid, .legacy-partners { gap: 14px; }
   .event-card--visual .event-card-content { padding: 22px 20px 24px; }
@@ -592,7 +592,7 @@ html { scrollbar-color: var(--purple-dark) var(--lavender); scrollbar-width: thi
 @media (min-width: 761px) and (max-width: 980px) {
   .hero { grid-template-columns: minmax(0, 1.08fr) minmax(300px, .92fr); gap: 36px; }
   .hero h1 { font-size: clamp(2.6rem, 5.8vw, 4.2rem); }
-  .section, .section + .section { margin-top: 72px; padding-top: 0; }
+  .section, .section + .section { margin-top: 72px; }
   .event-card--visual .event-card-content { padding: 22px; }
 }
 
