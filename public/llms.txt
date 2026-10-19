@@ -17,7 +17,7 @@ Coding Bunker is an independent tech community in Milan for people who build sof
 
 - Events and registration: https://www.meetup.com/it-IT/coding-bunker/
 - Community photos: https://www.meetup.com/coding-bunker/photos/
-- Call for papers: https://sessionize.com/codingbunker/
+- Submit a talk: https://sessionize.com/codingbunker/
 - Partnership request: https://forms.gle/FPca5upst1VTGFP86
 - Contact: mailto:info@codingbunker.it
 
