@@ -1,16 +1,163 @@
 import type { Metadata } from "next"
 
-export const metadata: Metadata = { title: "Aiuta la community | Coding Bunker", description: "Valori, ruoli e attività con cui contribuire a Coding Bunker." }
+export const metadata: Metadata = {
+  title: "Aiuta la community | Coding Bunker",
+  description: "Valori, ruoli e attività con cui contribuire a Coding Bunker.",
+}
 
 const roles = [
-  ["Programmazione", "Aiuta a leggere le proposte, proporre temi e costruire il calendario degli incontri."],
-  ["Speaker care", "Accompagna chi porta un talk: dal primo contatto alle prove, fino al palco."],
-  ["Accoglienza", "Rendi ogni serata semplice da vivere: check-in, orientamento, domande e networking."],
-  ["Community e comunicazione", "Racconta gli eventi, coinvolgi nuove persone e mantieni vive le conversazioni tra un meetup e l’altro."],
-  ["Location e partner", "Aiuta a trovare spazi ospitali e collaborazioni coerenti con i valori della community."],
-  ["Open source e attività pratiche", "Proponi hackathon, Open Source Hours, workshop e momenti in cui imparare facendo."],
+  [
+    "Programmazione",
+    "Aiuta a leggere le proposte, proporre temi e costruire il calendario degli incontri.",
+  ],
+  [
+    "Speaker care",
+    "Accompagna chi porta un talk: dal primo contatto alle prove, fino al palco.",
+  ],
+  [
+    "Accoglienza",
+    "Rendi ogni serata semplice da vivere: check-in, orientamento, domande e networking.",
+  ],
+  [
+    "Community e comunicazione",
+    "Racconta gli eventi, coinvolgi nuove persone e mantieni vive le conversazioni tra un meetup e l’altro.",
+  ],
+  [
+    "Location e partner",
+    "Aiuta a trovare spazi ospitali e collaborazioni coerenti con i valori della community.",
+  ],
+  [
+    "Open source e attività pratiche",
+    "Proponi hackathon, Open Source Hours, workshop e momenti in cui imparare facendo.",
+  ],
 ]
 
 export default function HelpCommunityPage() {
-  return <article className="help-page"><header className="help-hero"><p className="eyebrow">Partecipa dietro le quinte</p><h1>Vorrei aiutare la community.</h1><p>Coding Bunker vive grazie a persone che credono nella condivisione libera delle competenze e scelgono di trasformare una buona idea in un’esperienza utile per altre persone.</p><div className="hero-actions"><a className="button button-primary" href="mailto:info@codingbunker.it?subject=Vorrei%20aiutare%20Coding%20Bunker">Scrivi allo staff</a><a className="button button-secondary" href="https://forms.gle/FPca5upst1VTGFP86" target="_blank" rel="noreferrer">Proponi una partnership ↗</a><a className="button button-secondary" href="https://sessionize.com/codingbunker/" target="_blank" rel="noreferrer">Proponi un talk ↗</a></div></header><section className="section values-grid" aria-labelledby="values-heading"><div className="section-heading"><div><p className="eyebrow">I nostri valori</p><h2 id="values-heading">Cosa proteggiamo, ogni volta che organizziamo.</h2></div></div><article><h3>Accessibilità</h3><p>Eventi gratuiti, linguaggio chiaro e spazio per chi è all’inizio come per chi ha più esperienza.</p></article><article><h3>Generosità</h3><p>Condividere ciò che sappiamo, inclusi errori, dubbi e pratiche che possono essere utili a qualcun altro.</p></article><article><h3>Qualità</h3><p>Contenuti concreti, rispetto del tempo delle persone e cura per chi prende parte all’evento.</p></article><article><h3>Collaborazione</h3><p>Costruire ponti tra persone, community, aziende e spazi: non competere per l’attenzione.</p></article></section><section className="section help-rhythm"><div><p className="eyebrow">Come lavoriamo</p><h2>Un incontro organizzativo ogni due settimane.</h2></div><div><p>Lo staff si incontra ogni due settimane per decidere priorità, rivedere le proposte di speaking, costruire attività, preparare la comunicazione e verificare che ogni evento rispecchi i valori della community.</p><p>Non serve fare tutto: basta scegliere un pezzetto di lavoro e portarlo avanti con continuità, insieme agli altri.</p></div></section><section className="section role-grid" aria-labelledby="roles-heading"><div className="section-heading"><div><p className="eyebrow">Dove puoi contribuire</p><h2 id="roles-heading">Ruoli aperti, responsabilità condivise.</h2></div></div>{roles.map(([title, description], index) => <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{description}</p></article>)}</section><section className="section help-cta"><div><p className="eyebrow">Il prossimo passo</p><h2>Hai un’ora, un’idea o uno spazio da mettere a disposizione?</h2></div><div><p>Raccontaci cosa ti piacerebbe fare. Ti aiuteremo a trovare un modo concreto per iniziare, senza promesse vaghe e senza dover già sapere tutto.</p><a className="button button-primary" href="mailto:info@codingbunker.it?subject=Vorrei%20aiutare%20Coding%20Bunker">Vorrei aiutare</a></div></section></article>
+  return (
+    <article className="help-page">
+      <header className="help-hero">
+        <p className="eyebrow">Partecipa dietro le quinte</p>
+        <h1>Vorrei aiutare la community.</h1>
+        <p>
+          Coding Bunker vive grazie a persone che credono nella condivisione
+          libera delle competenze e scelgono di trasformare una buona idea in
+          un’esperienza utile per altre persone.
+        </p>
+        <div className="hero-actions">
+          <a
+            className="button button-primary"
+            href="mailto:info@codingbunker.it?subject=Vorrei%20aiutare%20Coding%20Bunker"
+          >
+            Scrivi allo staff
+          </a>
+          <a
+            className="button button-secondary"
+            href="https://forms.gle/FPca5upst1VTGFP86"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Proponi una partnership ↗
+          </a>
+          <a
+            className="button button-secondary"
+            href="https://sessionize.com/codingbunker/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Proponi un talk ↗
+          </a>
+        </div>
+      </header>
+      <section className="section values-grid" aria-labelledby="values-heading">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">I nostri valori</p>
+            <h2 id="values-heading">
+              Cosa proteggiamo, ogni volta che organizziamo.
+            </h2>
+          </div>
+        </div>
+        <article>
+          <h3>Accessibilità</h3>
+          <p>
+            Eventi gratuiti, linguaggio chiaro e spazio per chi è all’inizio
+            come per chi ha più esperienza.
+          </p>
+        </article>
+        <article>
+          <h3>Generosità</h3>
+          <p>
+            Condividere ciò che sappiamo, inclusi errori, dubbi e pratiche che
+            possono essere utili a qualcun altro.
+          </p>
+        </article>
+        <article>
+          <h3>Qualità</h3>
+          <p>
+            Contenuti concreti, rispetto del tempo delle persone e cura per chi
+            prende parte all’evento.
+          </p>
+        </article>
+        <article>
+          <h3>Collaborazione</h3>
+          <p>
+            Costruire ponti tra persone, community, aziende e spazi: non
+            competere per l’attenzione.
+          </p>
+        </article>
+      </section>
+      <section className="section help-rhythm">
+        <div>
+          <p className="eyebrow">Come lavoriamo</p>
+          <h2>Un incontro organizzativo ogni due settimane.</h2>
+        </div>
+        <div>
+          <p>
+            Lo staff si incontra ogni due settimane per decidere priorità,
+            rivedere le proposte di speaking, costruire attività, preparare la
+            comunicazione e verificare che ogni evento rispecchi i valori della
+            community.
+          </p>
+          <p>
+            Non serve fare tutto: basta scegliere un pezzetto di lavoro e
+            portarlo avanti con continuità, insieme agli altri.
+          </p>
+        </div>
+      </section>
+      <section className="section role-grid" aria-labelledby="roles-heading">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Dove puoi contribuire</p>
+            <h2 id="roles-heading">Ruoli aperti, responsabilità condivise.</h2>
+          </div>
+        </div>
+        {roles.map(([title, description], index) => (
+          <article key={title}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h3>{title}</h3>
+            <p>{description}</p>
+          </article>
+        ))}
+      </section>
+      <section className="section help-cta">
+        <div>
+          <p className="eyebrow">Il prossimo passo</p>
+          <h2>Hai un’ora, un’idea o uno spazio da mettere a disposizione?</h2>
+        </div>
+        <div>
+          <p>
+            Raccontaci cosa ti piacerebbe fare. Ti aiuteremo a trovare un modo
+            concreto per iniziare, senza promesse vaghe e senza dover già sapere
+            tutto.
+          </p>
+          <a
+            className="button button-primary"
+            href="mailto:info@codingbunker.it?subject=Vorrei%20aiutare%20Coding%20Bunker"
+          >
+            Vorrei aiutare
+          </a>
+        </div>
+      </section>
+    </article>
+  )
 }

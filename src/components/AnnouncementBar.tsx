@@ -31,7 +31,9 @@ export default function AnnouncementBar() {
     <div className="w-full bg-white text-black">
       <div className="mx-auto max-w-4xl px-4 py-2 flex items-center justify-between text-sm">
         <div className="flex items-center gap-3">
-          <span className="text-base font-semibold">🚀 Nuovo sito in arrivo — Presto online!</span>
+          <span className="text-base font-semibold">
+            🚀 Nuovo sito in arrivo — Presto online!
+          </span>
         </div>
         <button
           aria-label="Chiudi annuncio"

@@ -61,22 +61,42 @@ function getNextData(html: string): Record<string, unknown> | undefined {
  */
 export async function fetchMeetupEvents(): Promise<MeetupEvent[]> {
   try {
-    const pages = await Promise.all([EVENTS_URL, PAST_EVENTS_URL].map(async (url) => {
-      const response = await fetch(url, {
-        next: { revalidate: 3600 },
-        headers: { "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)" },
-      })
-      return response.ok ? getNextData(await response.text()) : undefined
-    }))
+    const pages = await Promise.all(
+      [EVENTS_URL, PAST_EVENTS_URL].map(async (url) => {
+        const response = await fetch(url, {
+          next: { revalidate: 3600 },
+          headers: {
+            "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)",
+          },
+        })
+        return response.ok ? getNextData(await response.text()) : undefined
+      }),
+    )
     const events = pages.flatMap((page) => {
-      const state = (page as { props?: { pageProps?: { __APOLLO_STATE__?: Record<string, ApolloRecord> } } } | undefined)?.props?.pageProps?.__APOLLO_STATE__
+      const state = (
+        page as
+          | {
+              props?: {
+                pageProps?: { __APOLLO_STATE__?: Record<string, ApolloRecord> }
+              }
+            }
+          | undefined
+      )?.props?.pageProps?.__APOLLO_STATE__
       if (!state) return []
       return Object.entries(state)
-        .filter(([, value]) => value.__typename === "Event" && value.id && value.title && value.dateTime && value.eventUrl)
+        .filter(
+          ([, value]) =>
+            value.__typename === "Event" &&
+            value.id &&
+            value.title &&
+            value.dateTime &&
+            value.eventUrl,
+        )
         .map(([key, event]) => {
           const venueReference = event.venue?.__ref
           const venue = venueReference ? state[venueReference] : undefined
-          const photoReference = event.displayPhoto?.__ref || event.featuredEventPhoto?.__ref
+          const photoReference =
+            event.displayPhoto?.__ref || event.featuredEventPhoto?.__ref
           const photo = photoReference ? state[photoReference] : undefined
           return {
             id: event.id || key,
@@ -89,12 +109,14 @@ export async function fetchMeetupEvents(): Promise<MeetupEvent[]> {
             venue: venue?.name || null,
             city: venue?.city || null,
             attendeeCount: event.going?.totalCount ?? null,
-            coverImageUrl: typeof photo?.highResUrl === "string" ? photo.highResUrl : null,
+            coverImageUrl:
+              typeof photo?.highResUrl === "string" ? photo.highResUrl : null,
           }
         })
     })
-    return [...new Map(events.map((event) => [event.id, event])).values()]
-      .sort((a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime())
+    return [...new Map(events.map((event) => [event.id, event])).values()].sort(
+      (a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime(),
+    )
   } catch {
     return []
   }
@@ -105,7 +127,9 @@ export async function fetchMeetupPastEventCount(): Promise<number | undefined> {
   try {
     const response = await fetch(EVENTS_URL, {
       next: { revalidate: 3600 },
-      headers: { "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)" },
+      headers: {
+        "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)",
+      },
     })
     if (!response.ok) return undefined
 
@@ -115,13 +139,20 @@ export async function fetchMeetupPastEventCount(): Promise<number | undefined> {
     const state = page?.props?.pageProps?.__APOLLO_STATE__
     if (!state) return undefined
 
-    const group = Object.values(state).find((value) => (
-      typeof value === "object" && value !== null && (value as ApolloRecord).__typename === "Group"
-    )) as Record<string, unknown> | undefined
+    const group = Object.values(state).find(
+      (value) =>
+        typeof value === "object" &&
+        value !== null &&
+        (value as ApolloRecord).__typename === "Group",
+    ) as Record<string, unknown> | undefined
     if (!group) return undefined
 
-    const pastEvents = Object.entries(group).find(([key]) => key.includes('"status":["PAST"]'))?.[1] as { totalCount?: number } | undefined
-    return typeof pastEvents?.totalCount === "number" ? pastEvents.totalCount : undefined
+    const pastEvents = Object.entries(group).find(([key]) =>
+      key.includes('"status":["PAST"]'),
+    )?.[1] as { totalCount?: number } | undefined
+    return typeof pastEvents?.totalCount === "number"
+      ? pastEvents.totalCount
+      : undefined
   } catch {
     return undefined
   }
@@ -132,7 +163,9 @@ export async function fetchMeetupGroupStats(): Promise<MeetupGroupStats> {
   try {
     const response = await fetch(EVENTS_URL, {
       next: { revalidate: 3600 },
-      headers: { "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)" },
+      headers: {
+        "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)",
+      },
     })
     if (!response.ok) return {}
 
@@ -140,13 +173,25 @@ export async function fetchMeetupGroupStats(): Promise<MeetupGroupStats> {
       props?: { pageProps?: { __APOLLO_STATE__?: Record<string, unknown> } }
     }
     const state = page?.props?.pageProps?.__APOLLO_STATE__
-    const group = state && Object.values(state).find((value) => (
-      typeof value === "object" && value !== null && (value as ApolloRecord).__typename === "Group"
-    )) as Record<string, unknown> | undefined
+    const group =
+      state &&
+      (Object.values(state).find(
+        (value) =>
+          typeof value === "object" &&
+          value !== null &&
+          (value as ApolloRecord).__typename === "Group",
+      ) as Record<string, unknown> | undefined)
     if (!group) return {}
 
-    const stats = group.stats as { memberCounts?: { all?: number }; eventRatings?: { average?: number; total?: number } } | undefined
-    const pastEvents = Object.entries(group).find(([key]) => key.includes('"status":["PAST"]'))?.[1] as { totalCount?: number } | undefined
+    const stats = group.stats as
+      | {
+          memberCounts?: { all?: number }
+          eventRatings?: { average?: number; total?: number }
+        }
+      | undefined
+    const pastEvents = Object.entries(group).find(([key]) =>
+      key.includes('"status":["PAST"]'),
+    )?.[1] as { totalCount?: number } | undefined
     return {
       members: stats?.memberCounts?.all,
       pastEvents: pastEvents?.totalCount,
@@ -161,10 +206,21 @@ export async function fetchMeetupGroupStats(): Promise<MeetupGroupStats> {
 export function splitMeetupEvents(events: MeetupEvent[], now = new Date()) {
   const current = now.getTime()
   return {
-    upcoming: events.filter((event) => new Date(event.dateTime).getTime() >= current && event.status !== "CANCELLED"),
+    upcoming: events.filter(
+      (event) =>
+        new Date(event.dateTime).getTime() >= current &&
+        event.status !== "CANCELLED",
+    ),
     past: events
-      .filter((event) => new Date(event.dateTime).getTime() < current || event.status === "PAST")
-      .sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()),
+      .filter(
+        (event) =>
+          new Date(event.dateTime).getTime() < current ||
+          event.status === "PAST",
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime(),
+      ),
   }
 }
 

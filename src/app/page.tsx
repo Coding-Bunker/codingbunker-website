@@ -4,41 +4,426 @@ import TeamImage from "../assets/team/team.png"
 import MeetupEventCard from "@/components/MeetupEventCard"
 import TopicVote from "@/components/TopicVote"
 import HeroCodeMotifs from "@/components/HeroCodeMotifs"
-import { fetchMeetupEvents, meetupEventsUrl, splitMeetupEvents } from "@/lib/meetup"
+import {
+  fetchMeetupEvents,
+  meetupEventsUrl,
+  splitMeetupEvents,
+} from "@/lib/meetup"
 
 export default async function Home() {
   const events = await fetchMeetupEvents()
   const { upcoming, past } = splitMeetupEvents(events)
   const nextEvent = upcoming[0]
 
-  return <>
-    <section className="hero" aria-labelledby="home-title">
-      <div className="hero-copy"><p className="eyebrow">Community tech indipendente · Milano</p><h1 id="home-title">Dove le persone che costruiscono software si incontrano.</h1><p className="hero-lede">Meetup gratuiti, esperienze reali e conversazioni tecniche per chi vuole fare software meglio, insieme.</p><div className="hero-actions"><a className="button button-primary" href={nextEvent?.eventUrl || meetupEventsUrl} target="_blank" rel="noreferrer">{nextEvent ? "Iscriviti al prossimo evento" : "Vedi gli eventi su Meetup"}</a><a className="button button-secondary" href="https://t.me/codingbunker" target="_blank" rel="noreferrer">Entra nella community</a></div><p className="hero-note">Engineering, testing, AI, architettura, DevOps e ciò che impariamo davvero sul campo.</p></div>
-      <div className="hero-image-wrap"><Image src={TeamImage} alt="La community Coding Bunker durante un meetup" priority className="hero-image" /></div><HeroCodeMotifs />
-    </section>
+  return (
+    <>
+      <section className="hero" aria-labelledby="home-title">
+        <div className="hero-copy">
+          <p className="eyebrow">Community tech indipendente · Milano</p>
+          <h1 id="home-title">
+            Dove le persone che costruiscono software si incontrano.
+          </h1>
+          <p className="hero-lede">
+            Meetup gratuiti, esperienze reali e conversazioni tecniche per chi
+            vuole fare software meglio, insieme.
+          </p>
+          <div className="hero-actions">
+            <a
+              className="button button-primary"
+              href={nextEvent?.eventUrl || meetupEventsUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {nextEvent
+                ? "Iscriviti al prossimo evento"
+                : "Vedi gli eventi su Meetup"}
+            </a>
+            <a
+              className="button button-secondary"
+              href="https://t.me/codingbunker"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Entra nella community
+            </a>
+          </div>
+          <p className="hero-note">
+            Engineering, testing, AI, architettura, DevOps e ciò che impariamo
+            davvero sul campo.
+          </p>
+        </div>
+        <div className="hero-image-wrap">
+          <Image
+            src={TeamImage}
+            alt="La community Coding Bunker durante un meetup"
+            priority
+            className="hero-image"
+          />
+        </div>
+        <HeroCodeMotifs />
+      </section>
 
-    <section className="proof-strip" aria-label="Coding Bunker in numeri"><div><strong>1500+</strong><span>persone coinvolte</span></div><div><strong>50+</strong><span>eventi organizzati</span></div><div><strong>100%</strong><span>gratuito per chi partecipa</span></div></section>
+      <section className="proof-strip" aria-label="Coding Bunker in numeri">
+        <div>
+          <strong>1500+</strong>
+          <span>persone coinvolte</span>
+        </div>
+        <div>
+          <strong>50+</strong>
+          <span>eventi organizzati</span>
+        </div>
+        <div>
+          <strong>100%</strong>
+          <span>gratuito per chi partecipa</span>
+        </div>
+      </section>
 
-    <section className="section" aria-labelledby="next-event-heading"><div className="section-heading"><div><p className="eyebrow">In agenda</p><h2 id="next-event-heading">Il prossimo meetup</h2></div><a className="text-link" href={meetupEventsUrl} target="_blank" rel="noreferrer">Tutti gli eventi <span aria-hidden="true">↗</span></a></div>{nextEvent ? <MeetupEventCard event={nextEvent} featured /> : <div className="empty-state"><p>Stiamo preparando il prossimo meetup.</p><a className="button button-secondary" href={meetupEventsUrl} target="_blank" rel="noreferrer">Segui Coding Bunker su Meetup</a></div>}</section>
+      <section className="section" aria-labelledby="next-event-heading">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">In agenda</p>
+            <h2 id="next-event-heading">Il prossimo meetup</h2>
+          </div>
+          <a
+            className="text-link"
+            href={meetupEventsUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Tutti gli eventi <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        {nextEvent ? (
+          <MeetupEventCard event={nextEvent} featured />
+        ) : (
+          <div className="empty-state">
+            <p>Stiamo preparando il prossimo meetup.</p>
+            <a
+              className="button button-secondary"
+              href={meetupEventsUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Segui Coding Bunker su Meetup
+            </a>
+          </div>
+        )}
+      </section>
 
-    <section className="section story-section" aria-labelledby="story-heading"><div><p className="eyebrow">La nostra missione</p><h2 id="story-heading">Nata per riportare le conversazioni tecniche tra le persone.</h2></div><div className="story-copy"><p>Coding Bunker nasce da una convinzione semplice: le competenze che abbiamo costruito sul lavoro diventano più utili quando le restituiamo alla community.</p><p>Per questo creiamo serate accessibili, senza biglietti né pitch commerciali, dove professioniste e professionisti condividono ciò che funziona, ciò che non ha funzionato e le domande che restano aperte.</p><p className="story-highlight">Amiamo l’open source perché è un gesto concreto di restituzione: imparare in pubblico, rendere visibile il proprio sapere e lasciare qualcosa di utile a chi viene dopo.</p></div></section>
+      <section
+        className="section story-section"
+        aria-labelledby="story-heading"
+      >
+        <div>
+          <p className="eyebrow">La nostra missione</p>
+          <h2 id="story-heading">
+            Nata per riportare le conversazioni tecniche tra le persone.
+          </h2>
+        </div>
+        <div className="story-copy">
+          <p>
+            Coding Bunker nasce da una convinzione semplice: le competenze che
+            abbiamo costruito sul lavoro diventano più utili quando le
+            restituiamo alla community.
+          </p>
+          <p>
+            Per questo creiamo serate accessibili, senza biglietti né pitch
+            commerciali, dove professioniste e professionisti condividono ciò
+            che funziona, ciò che non ha funzionato e le domande che restano
+            aperte.
+          </p>
+          <p className="story-highlight">
+            Amiamo l’open source perché è un gesto concreto di restituzione:
+            imparare in pubblico, rendere visibile il proprio sapere e lasciare
+            qualcosa di utile a chi viene dopo.
+          </p>
+        </div>
+      </section>
 
-    <section className="section event-types-section" aria-labelledby="event-types-heading"><div className="section-heading"><div><p className="eyebrow">Non un solo formato</p><h2 id="event-types-heading">Ogni conversazione trova la sua forma.</h2></div></div><div className="event-types-grid"><article><h3>Talk frontale</h3><p>Un’esperienza concreta raccontata da chi l’ha vissuta.</p></article><article><h3>Open Discussion</h3><p>Una conversazione aperta per confrontare approcci e dubbi.</p></article><article><h3>Fishbowl Conversations</h3><p>Una discussione che lascia spazio a chi vuole entrare nel cerchio.</p></article><article><h3>Hackathon</h3><p>Una giornata per costruire, sperimentare e imparare facendo.</p></article><article><h3>Open Source Hours</h3><p>Tempo condiviso per contribuire, chiedere aiuto e restituire valore.</p></article><article><h3>Panel + Mentimeter</h3><p>Domande live dal pubblico per rendere il panel una conversazione.</p></article><article className="event-type-wide"><h3>Filoni tematici</h3><p>Una sequenza di eventi che approfondisce lo stesso argomento nel tempo, invece di esaurirlo in una sola sera.</p></article></div></section>
+      <section
+        className="section event-types-section"
+        aria-labelledby="event-types-heading"
+      >
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Non un solo formato</p>
+            <h2 id="event-types-heading">
+              Ogni conversazione trova la sua forma.
+            </h2>
+          </div>
+        </div>
+        <div className="event-types-grid">
+          <article>
+            <h3>Talk frontale</h3>
+            <p>Un’esperienza concreta raccontata da chi l’ha vissuta.</p>
+          </article>
+          <article>
+            <h3>Open Discussion</h3>
+            <p>Una conversazione aperta per confrontare approcci e dubbi.</p>
+          </article>
+          <article>
+            <h3>Fishbowl Conversations</h3>
+            <p>
+              Una discussione che lascia spazio a chi vuole entrare nel cerchio.
+            </p>
+          </article>
+          <article>
+            <h3>Hackathon</h3>
+            <p>Una giornata per costruire, sperimentare e imparare facendo.</p>
+          </article>
+          <article>
+            <h3>Open Source Hours</h3>
+            <p>
+              Tempo condiviso per contribuire, chiedere aiuto e restituire
+              valore.
+            </p>
+          </article>
+          <article>
+            <h3>Panel + Mentimeter</h3>
+            <p>
+              Domande live dal pubblico per rendere il panel una conversazione.
+            </p>
+          </article>
+          <article className="event-type-wide">
+            <h3>Filoni tematici</h3>
+            <p>
+              Una sequenza di eventi che approfondisce lo stesso argomento nel
+              tempo, invece di esaurirlo in una sola sera.
+            </p>
+          </article>
+        </div>
+      </section>
 
-    <section className="section hacktoberfest-home-card" aria-labelledby="hacktoberfest-home-heading"><div><p className="eyebrow">Evento speciale · Hack Day</p><h2 id="hacktoberfest-home-heading">Hacktoberfest Milan</h2><p>39 partecipanti, progetti open source e AI open-weight: scopri i vincitori, le categorie e le foto dell’Hacktoberfest Hack Day Milano 2026.</p><a className="button button-primary" href="/hacktoberfest">Scopri Hacktoberfest Milan <span aria-hidden="true">↗</span></a></div><div className="hacktoberfest-home-meta"><strong>39</strong><span>partecipanti</span><span>Milano · 2026</span></div></section>
+      <section
+        className="section hacktoberfest-home-card"
+        aria-labelledby="hacktoberfest-home-heading"
+      >
+        <div>
+          <p className="eyebrow">Evento speciale · Hack Day</p>
+          <h2 id="hacktoberfest-home-heading">Hacktoberfest Milan</h2>
+          <p>
+            39 partecipanti, progetti open source e AI open-weight: scopri i
+            vincitori, le categorie e le foto dell’Hacktoberfest Hack Day Milano
+            2026.
+          </p>
+          <a className="button button-primary" href="/hacktoberfest">
+            Scopri Hacktoberfest Milan <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div className="hacktoberfest-home-meta">
+          <strong>39</strong>
+          <span>partecipanti</span>
+          <span>Milano · 2026</span>
+        </div>
+      </section>
 
-    <section className="section reasons-section" aria-labelledby="reasons-heading"><div className="section-heading"><div><p className="eyebrow">Perché partecipare</p><h2 id="reasons-heading">Più vicino di una conferenza. Più utile di una slide.</h2></div></div><div className="reason-grid"><article><span>01</span><h3>Esperienze reali</h3><p>Parliamo di decisioni, limiti e compromessi incontrati nel lavoro quotidiano.</p></article><article><span>02</span><h3>Domande, non platea</h3><p>Puoi intervenire, confrontarti con chi parla e continuare la conversazione dopo il talk.</p></article><article><span>03</span><h3>Networking che resta</h3><p>Conosci persone con problemi e curiosità simili, senza badge costosi o barriere d’ingresso.</p></article></div></section>
+      <section
+        className="section reasons-section"
+        aria-labelledby="reasons-heading"
+      >
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Perché partecipare</p>
+            <h2 id="reasons-heading">
+              Più vicino di una conferenza. Più utile di una slide.
+            </h2>
+          </div>
+        </div>
+        <div className="reason-grid">
+          <article>
+            <span>01</span>
+            <h3>Esperienze reali</h3>
+            <p>
+              Parliamo di decisioni, limiti e compromessi incontrati nel lavoro
+              quotidiano.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Domande, non platea</h3>
+            <p>
+              Puoi intervenire, confrontarti con chi parla e continuare la
+              conversazione dopo il talk.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Networking che resta</h3>
+            <p>
+              Conosci persone con problemi e curiosità simili, senza badge
+              costosi o barriere d’ingresso.
+            </p>
+          </article>
+        </div>
+      </section>
 
-    <section className="section score-section" aria-labelledby="score-heading"><p className="eyebrow">Il nostro formato</p><h2 id="score-heading">Il valore di un meetup non è un voto a stelle.</h2><p>Lo misuriamo con ciò che succede dopo: una domanda che diventa confronto, una persona che torna, una competenza condivisa liberamente. Qui non vendiamo una conferenza: mettiamo a disposizione uno spazio per crescere insieme.</p><div className="format-points"><span>Gratuito</span><span>Community-led</span><span>In presenza</span><span>Accessibile</span></div></section>
+      <section
+        className="section score-section"
+        aria-labelledby="score-heading"
+      >
+        <p className="eyebrow">Il nostro formato</p>
+        <h2 id="score-heading">
+          Il valore di un meetup non è un voto a stelle.
+        </h2>
+        <p>
+          Lo misuriamo con ciò che succede dopo: una domanda che diventa
+          confronto, una persona che torna, una competenza condivisa
+          liberamente. Qui non vendiamo una conferenza: mettiamo a disposizione
+          uno spazio per crescere insieme.
+        </p>
+        <div className="format-points">
+          <span>Gratuito</span>
+          <span>Community-led</span>
+          <span>In presenza</span>
+          <span>Accessibile</span>
+        </div>
+      </section>
 
-    <section className="section topic-section" aria-labelledby="topics-heading"><div><p className="eyebrow">Decidiamo insieme</p><h2 id="topics-heading">Quale tema vuoi vedere al prossimo meetup?</h2><p>La programmazione nasce dalla community. Scegli il tema che ti interessa: useremo i risultati per orientare i prossimi inviti e le call.</p></div><TopicVote /></section>
+      <section
+        className="section topic-section"
+        aria-labelledby="topics-heading"
+      >
+        <div>
+          <p className="eyebrow">Decidiamo insieme</p>
+          <h2 id="topics-heading">
+            Quale tema vuoi vedere al prossimo meetup?
+          </h2>
+          <p>
+            La programmazione nasce dalla community. Scegli il tema che ti
+            interessa: useremo i risultati per orientare i prossimi inviti e le
+            call.
+          </p>
+        </div>
+        <TopicVote />
+      </section>
 
-    <section className="section contribution-section" aria-labelledby="contribution-heading"><div><p className="eyebrow">Dai spazio alle idee</p><h2 id="contribution-heading">Hai una location? Noi portiamo persone, contenuti e valore.</h2></div><div><p>Se la tua azienda ha uno spazio a Milano, può diventare il luogo in cui professionisti si incontrano, imparano e creano connessioni. Coding Bunker cura la community e il programma; tu offri un luogo ospitale per far accadere qualcosa di utile.</p><a className="button button-secondary" href="https://forms.gle/FPca5upst1VTGFP86" target="_blank" rel="noreferrer">Metti a disposizione una location ↗</a></div></section>
+      <section
+        className="section contribution-section"
+        aria-labelledby="contribution-heading"
+      >
+        <div>
+          <p className="eyebrow">Dai spazio alle idee</p>
+          <h2 id="contribution-heading">
+            Hai una location? Noi portiamo persone, contenuti e valore.
+          </h2>
+        </div>
+        <div>
+          <p>
+            Se la tua azienda ha uno spazio a Milano, può diventare il luogo in
+            cui professionisti si incontrano, imparano e creano connessioni.
+            Coding Bunker cura la community e il programma; tu offri un luogo
+            ospitale per far accadere qualcosa di utile.
+          </p>
+          <a
+            className="button button-secondary"
+            href="https://forms.gle/FPca5upst1VTGFP86"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Metti a disposizione una location ↗
+          </a>
+        </div>
+      </section>
 
-    <section className="section speaker-section speaker-invite" aria-labelledby="speaker-heading"><div><p className="eyebrow">Proponi un talk</p><h2 id="speaker-heading">Il prossimo talk può partire da te.</h2></div><div><p>Hai imparato qualcosa sul campo, risolto un problema difficile o cambiato approccio? Le proposte di talk sono aperte: raccontaci la tua esperienza tramite Sessionize, la piattaforma che usiamo per raccogliere le candidature. Non servono solo CV perfetti: servono esperienze che vale la pena raccontare.</p><a className="button button-primary" href="https://sessionize.com/codingbunker/" target="_blank" rel="noreferrer">Proponi il tuo talk ↗</a><p className="speaker-note">La proposta viene valutata dallo staff Coding Bunker.</p></div></section>
+      <section
+        className="section speaker-section speaker-invite"
+        aria-labelledby="speaker-heading"
+      >
+        <div>
+          <p className="eyebrow">Proponi un talk</p>
+          <h2 id="speaker-heading">Il prossimo talk può partire da te.</h2>
+        </div>
+        <div>
+          <p>
+            Hai imparato qualcosa sul campo, risolto un problema difficile o
+            cambiato approccio? Le proposte di talk sono aperte: raccontaci la
+            tua esperienza tramite Sessionize, la piattaforma che usiamo per
+            raccogliere le candidature. Non servono solo CV perfetti: servono
+            esperienze che vale la pena raccontare.
+          </p>
+          <a
+            className="button button-primary"
+            href="https://sessionize.com/codingbunker/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Proponi il tuo talk ↗
+          </a>
+          <p className="speaker-note">
+            La proposta viene valutata dallo staff Coding Bunker.
+          </p>
+        </div>
+      </section>
 
-    <section className="section partners-section" aria-labelledby="partners-heading"><div><p className="eyebrow">Partner attuale</p><h2 id="partners-heading">Fondazione Giacomo Brodolini</h2><p>Grazie a chi sostiene luoghi e occasioni di condivisione professionale, aperte alla community.</p><Link className="text-link" href="/partners">Scopri i partner <span aria-hidden="true">→</span></Link></div><div className="partner-card"><Image src="/fondazione-brodolini.svg" alt="Fondazione Giacomo Brodolini" width={270} height={116} /></div></section>
+      <section
+        className="section partners-section"
+        aria-labelledby="partners-heading"
+      >
+        <div>
+          <p className="eyebrow">Partner attuale</p>
+          <h2 id="partners-heading">Fondazione Giacomo Brodolini</h2>
+          <p>
+            Grazie a chi sostiene luoghi e occasioni di condivisione
+            professionale, aperte alla community.
+          </p>
+          <Link className="text-link" href="/partners">
+            Scopri i partner <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+        <div className="partner-card">
+          <Image
+            src="/fondazione-brodolini.svg"
+            alt="Fondazione Giacomo Brodolini"
+            width={270}
+            height={116}
+          />
+        </div>
+      </section>
 
-    <section className="section homepage-archive" aria-labelledby="past-events-heading"><div className="section-heading"><div><p className="eyebrow">Archivio</p><h2 id="past-events-heading">Gli ultimi meetup</h2></div><div className="section-heading-links"><Link className="text-link" href="/events">Vedi l’archivio <span aria-hidden="true">→</span></Link><a className="text-link" href="https://www.meetup.com/coding-bunker/photos/" target="_blank" rel="noreferrer">Foto della community ↗</a></div></div>{past.length ? <div className="event-grid">{past.slice(0, 3).map((event) => <MeetupEventCard event={event} imageSrc={event.title.toLowerCase().includes("hacktoberfest") ? "/hacktoberfest-2026.jpeg" : undefined} key={event.id} />)}</div> : <p className="muted">Gli eventi passati saranno disponibili qui appena Meetup li pubblicherà.</p>}</section>
-  </>
+      <section
+        className="section homepage-archive"
+        aria-labelledby="past-events-heading"
+      >
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Archivio</p>
+            <h2 id="past-events-heading">Gli ultimi meetup</h2>
+          </div>
+          <div className="section-heading-links">
+            <Link className="text-link" href="/events">
+              Vedi l’archivio <span aria-hidden="true">→</span>
+            </Link>
+            <a
+              className="text-link"
+              href="https://www.meetup.com/coding-bunker/photos/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Foto della community ↗
+            </a>
+          </div>
+        </div>
+        {past.length ? (
+          <div className="event-grid">
+            {past.slice(0, 3).map((event) => (
+              <MeetupEventCard
+                event={event}
+                imageSrc={
+                  event.title.toLowerCase().includes("hacktoberfest")
+                    ? "/hacktoberfest-2026.jpeg"
+                    : undefined
+                }
+                key={event.id}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="muted">
+            Gli eventi passati saranno disponibili qui appena Meetup li
+            pubblicherà.
+          </p>
+        )}
+      </section>
+    </>
+  )
 }

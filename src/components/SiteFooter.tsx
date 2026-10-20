@@ -5,5 +5,133 @@ import { usePathname } from "next/navigation"
 
 export default function SiteFooter() {
   const isEnglish = usePathname().startsWith("/en")
-  return <footer className="site-footer"><div className="shell footer-content"><div className="footer-intro"><p className="footer-brand">Coding Bunker</p><p>{isEnglish ? "An independent community for people who build software." : "Una community indipendente per chi costruisce software."}</p><Link className="footer-cta" href={isEnglish ? "/contact" : "/contatti"}>{isEnglish ? "Get involved" : "Partecipa alla community"} <span aria-hidden="true">↗</span></Link><a className="footer-bug-link" href="https://github.com/Coding-Bunker/codingbunker-website/issues" target="_blank" rel="noreferrer">{isEnglish ? "Found a bug? Report it or fix it ↗" : "Hai trovato un bug? Segnalalo o correggilo ↗"}</a></div><div className="footer-nav"><div><p className="footer-heading">{isEnglish ? "Explore" : "Esplora"}</p>{isEnglish ? <><Link href="/en">Home</Link><Link href="/events">Events</Link><Link href="/hacktoberfest">Hacktoberfest Milan</Link><Link href="/partners">Partners</Link><Link href="/press">Press kit</Link></> : <><Link href="/">Home</Link><Link href="/events">Eventi</Link><Link href="/hacktoberfest">Hacktoberfest Milan</Link><Link href="/partners">Partner</Link><Link href="/press">Press kit</Link></>}</div><div><p className="footer-heading">{isEnglish ? "Community" : "Community"}</p>{isEnglish ? <><a href="https://www.meetup.com/it-IT/coding-bunker/" target="_blank" rel="noreferrer">Meetup ↗</a><a href="https://t.me/codingbunker" target="_blank" rel="noreferrer">Telegram ↗</a><a href="https://www.meetup.com/coding-bunker/photos/" target="_blank" rel="noreferrer">Photos ↗</a><Link href="/code-of-conduct/en">Code of Conduct</Link></> : <><a href="https://www.meetup.com/it-IT/coding-bunker/" target="_blank" rel="noreferrer">Meetup ↗</a><a href="https://t.me/codingbunker" target="_blank" rel="noreferrer">Telegram ↗</a><a href="https://www.meetup.com/coding-bunker/photos/" target="_blank" rel="noreferrer">Foto ↗</a><Link href="/code-of-conduct">Code of Conduct</Link></>}</div><div><p className="footer-heading">{isEnglish ? "Language" : "Lingua"}</p><Link href={isEnglish ? "/" : "/en"}>{isEnglish ? "Italiano" : "English"} <span aria-hidden="true">↗</span></Link><a href="mailto:info@codingbunker.it">info@codingbunker.it</a></div></div></div><div className="shell footer-bottom"><span>© {new Date().getFullYear()} Coding Bunker</span><span>{isEnglish ? "Built in Milan, shared openly." : "Costruito a Milano, condiviso apertamente."}</span></div></footer>
+  return (
+    <footer className="site-footer">
+      <div className="shell footer-content">
+        <div className="footer-intro">
+          <p className="footer-brand">Coding Bunker</p>
+          <p>
+            {isEnglish
+              ? "An independent community for people who build software."
+              : "Una community indipendente per chi costruisce software."}
+          </p>
+          <Link
+            className="footer-cta"
+            href={isEnglish ? "/contact" : "/contatti"}
+          >
+            {isEnglish ? "Get involved" : "Partecipa alla community"}{" "}
+            <span aria-hidden="true">↗</span>
+          </Link>
+          <a
+            className="footer-bug-link"
+            href="https://github.com/Coding-Bunker/codingbunker-website/issues"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {isEnglish
+              ? "Found a bug? Report it or fix it ↗"
+              : "Hai trovato un bug? Segnalalo o correggilo ↗"}
+          </a>
+        </div>
+        <div className="footer-nav">
+          <div>
+            <p className="footer-heading">
+              {isEnglish ? "Explore" : "Esplora"}
+            </p>
+            {isEnglish ? (
+              <>
+                <Link href="/en">Home</Link>
+                <Link href="/events">Events</Link>
+                <Link href="/hacktoberfest">Hacktoberfest Milan</Link>
+                <Link href="/partners">Partners</Link>
+                <Link href="/press">Press kit</Link>
+              </>
+            ) : (
+              <>
+                <Link href="/">Home</Link>
+                <Link href="/events">Eventi</Link>
+                <Link href="/hacktoberfest">Hacktoberfest Milan</Link>
+                <Link href="/partners">Partner</Link>
+                <Link href="/press">Press kit</Link>
+              </>
+            )}
+          </div>
+          <div>
+            <p className="footer-heading">
+              {isEnglish ? "Community" : "Community"}
+            </p>
+            {isEnglish ? (
+              <>
+                <a
+                  href="https://www.meetup.com/it-IT/coding-bunker/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Meetup ↗
+                </a>
+                <a
+                  href="https://t.me/codingbunker"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Telegram ↗
+                </a>
+                <a
+                  href="https://www.meetup.com/coding-bunker/photos/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Photos ↗
+                </a>
+                <Link href="/code-of-conduct/en">Code of Conduct</Link>
+              </>
+            ) : (
+              <>
+                <a
+                  href="https://www.meetup.com/it-IT/coding-bunker/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Meetup ↗
+                </a>
+                <a
+                  href="https://t.me/codingbunker"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Telegram ↗
+                </a>
+                <a
+                  href="https://www.meetup.com/coding-bunker/photos/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Foto ↗
+                </a>
+                <Link href="/code-of-conduct">Code of Conduct</Link>
+              </>
+            )}
+          </div>
+          <div>
+            <p className="footer-heading">
+              {isEnglish ? "Language" : "Lingua"}
+            </p>
+            <Link href={isEnglish ? "/" : "/en"}>
+              {isEnglish ? "Italiano" : "English"}{" "}
+              <span aria-hidden="true">↗</span>
+            </Link>
+            <a href="mailto:info@codingbunker.it">info@codingbunker.it</a>
+          </div>
+        </div>
+      </div>
+      <div className="shell footer-bottom">
+        <span>© {new Date().getFullYear()} Coding Bunker</span>
+        <span>
+          {isEnglish
+            ? "Built in Milan, shared openly."
+            : "Costruito a Milano, condiviso apertamente."}
+        </span>
+      </div>
+    </footer>
+  )
 }
