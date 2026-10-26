@@ -1,0 +1,43 @@
+{
+  "props": {
+    "pageProps": {
+      "__APOLLO_STATE__": {
+        "Event:3": {
+          "__typename": "Event",
+          "id": "3",
+          "title": "Newest",
+          "description": "Latest event",
+          "dateTime": "2026-10-20T18:30:00+02:00",
+          "eventUrl": "https://www.meetup.com/coding-bunker/events/3/",
+          "status": "PAST",
+          "displayPhoto": { "__ref": "Photo:3" }
+        },
+        "Event:2": {
+          "__typename": "Event",
+          "id": "2",
+          "title": "Duplicate",
+          "description": "Repeated at the cursor boundary",
+          "dateTime": "2026-10-10T18:30:00+02:00",
+          "eventUrl": "https://www.meetup.com/coding-bunker/events/2/",
+          "status": "PAST"
+        },
+        "Photo:3": {
+          "__typename": "Photo",
+          "highResUrl": "https://images.example/newest.jpg"
+        },
+        "Group:1": {
+          "__typename": "Group",
+          "events({\"filter\":{\"beforeDateTime\":\"2026-10-26T18:05:38.295Z\",\"status\":[\"ACTIVE\",\"PAST\",\"CANCELLED\"]},\"first\":10,\"sort\":\"DESC\"})": {
+            "__typename": "GroupEventConnection",
+            "totalCount": 3,
+            "pageInfo": {
+              "__typename": "PageInfo",
+              "endCursor": "cursor-1",
+              "hasNextPage": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

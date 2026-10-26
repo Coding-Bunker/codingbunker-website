@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "../.tmp-meetup-tests",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "jsx": "react-jsx"
+  },
+  "include": ["../next-env.d.ts", "../src/lib/meetup.ts", "./meetup.test.ts"]
+}
