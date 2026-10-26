@@ -1,0 +1,35 @@
+{
+  "data": {
+    "groupByUrlname": {
+      "events": {
+        "totalCount": 3,
+        "pageInfo": { "endCursor": "cursor-2", "hasNextPage": false },
+        "edges": [
+          {
+            "node": {
+              "id": "2",
+              "title": "Duplicate",
+              "description": "Repeated at the cursor boundary",
+              "dateTime": "2026-10-10T18:30:00+02:00",
+              "eventUrl": "https://www.meetup.com/coding-bunker/events/2/",
+              "status": "PAST"
+            }
+          },
+          {
+            "node": {
+              "id": "1",
+              "title": "Oldest",
+              "description": "First event",
+              "dateTime": "2026-10-01T18:30:00+02:00",
+              "eventUrl": "https://www.meetup.com/coding-bunker/events/1/",
+              "status": "PAST",
+              "featuredEventPhoto": {
+                "highResUrl": "https://images.example/oldest.jpg"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

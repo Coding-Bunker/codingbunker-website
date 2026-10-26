@@ -37,8 +37,24 @@ type ApolloRecord = {
   highResUrl?: string
 }
 
+type PastEventsPage = {
+  events: MeetupEvent[]
+  totalCount?: number
+  endCursor?: string
+  hasNextPage: boolean
+  beforeDateTime?: string
+}
+
+type MeetupGraphQLEvent = ApolloRecord & {
+  venue?: { name?: string; city?: string } | null
+  displayPhoto?: { highResUrl?: string | null } | null
+  featuredEventPhoto?: { highResUrl?: string | null } | null
+}
+
 const EVENTS_URL = "https://www.meetup.com/it-IT/coding-bunker/events/"
 const PAST_EVENTS_URL = `${EVENTS_URL}?type=past`
+const MEETUP_GRAPHQL_URL = "https://www.meetup.com/gql2"
+const MEETUP_USER_AGENT = "CodingBunkerWebsite/1.0 (+https://codingbunker.it)"
 
 function getNextData(html: string): Record<string, unknown> | undefined {
   const match = html.match(
@@ -54,6 +70,190 @@ function getNextData(html: string): Record<string, unknown> | undefined {
   }
 }
 
+function isApolloRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null
+}
+
+function toMeetupEvent(
+  event: ApolloRecord,
+  state?: Record<string, ApolloRecord>,
+): MeetupEvent | undefined {
+  if (!event.id || !event.title || !event.dateTime || !event.eventUrl) {
+    return undefined
+  }
+
+  const venueReference = event.venue?.__ref
+  const venue = (venueReference ? state?.[venueReference] : event.venue) as
+    | ApolloRecord
+    | undefined
+  const photoReference =
+    event.displayPhoto?.__ref || event.featuredEventPhoto?.__ref
+  const photo = photoReference ? state?.[photoReference] : undefined
+  const graphQLEvent = event as MeetupGraphQLEvent
+  const coverImageUrl =
+    photo?.highResUrl ||
+    graphQLEvent.displayPhoto?.highResUrl ||
+    graphQLEvent.featuredEventPhoto?.highResUrl ||
+    null
+
+  return {
+    id: event.id,
+    title: event.title,
+    description: event.description || "",
+    dateTime: event.dateTime,
+    endTime: event.endTime,
+    eventUrl: event.eventUrl,
+    status: event.status || "",
+    venue: venue?.name || null,
+    city: venue?.city || null,
+    attendeeCount: event.going?.totalCount ?? null,
+    coverImageUrl: typeof coverImageUrl === "string" ? coverImageUrl : null,
+  }
+}
+
+function getApolloState(page: Record<string, unknown> | undefined) {
+  return (
+    page as
+      | {
+          props?: {
+            pageProps?: { __APOLLO_STATE__?: Record<string, ApolloRecord> }
+          }
+        }
+      | undefined
+  )?.props?.pageProps?.__APOLLO_STATE__
+}
+
+/** Extracts event records and cursor metadata from Meetup's public page state. */
+export function parseMeetupPage(
+  page: Record<string, unknown> | undefined,
+): PastEventsPage {
+  const state = getApolloState(page)
+  if (!state) return { events: [], hasNextPage: false }
+
+  const events = Object.values(state)
+    .filter(
+      (value) =>
+        value.__typename === "Event" &&
+        value.id &&
+        value.title &&
+        value.dateTime &&
+        value.eventUrl,
+    )
+    .map((event) => toMeetupEvent(event, state))
+    .filter((event): event is MeetupEvent => Boolean(event))
+
+  const group = Object.values(state).find(
+    (value) => value.__typename === "Group",
+  ) as Record<string, unknown> | undefined
+  if (!group) return { events, hasNextPage: false }
+
+  const connection = Object.entries(group).find(([key, value]) => {
+    if (!key.includes('"status":["ACTIVE","PAST","CANCELLED"]')) {
+      return false
+    }
+    return isApolloRecord(value) && isApolloRecord(value.pageInfo)
+  })
+  const [key, value] = connection || []
+  const pageInfo =
+    isApolloRecord(value) && isApolloRecord(value.pageInfo)
+      ? value.pageInfo
+      : undefined
+  const beforeDateTime = key?.match(/"beforeDateTime":"([^"]+)"/)?.[1]
+
+  return {
+    events,
+    totalCount:
+      isApolloRecord(value) && typeof value.totalCount === "number"
+        ? value.totalCount
+        : undefined,
+    endCursor:
+      typeof pageInfo?.endCursor === "string" ? pageInfo.endCursor : undefined,
+    hasNextPage: pageInfo?.hasNextPage === true,
+    beforeDateTime,
+  }
+}
+
+const pastEventsQuery = `
+  query getPastGroupEvents(
+    $urlname: String!
+    $after: String
+    $beforeDateTime: DateTime
+  ) {
+    groupByUrlname(urlname: $urlname) {
+      events(
+        filter: {
+          status: [ACTIVE, PAST, CANCELLED]
+          beforeDateTime: $beforeDateTime
+        }
+        sort: DESC
+        first: 10
+        after: $after
+      ) {
+        totalCount
+        pageInfo { endCursor hasNextPage }
+        edges {
+          node {
+            id title description dateTime endTime eventUrl status
+            going { totalCount }
+            venue { name city }
+            displayPhoto { highResUrl }
+            featuredEventPhoto { highResUrl }
+          }
+        }
+      }
+    }
+  }
+`
+
+async function fetchPastEventsPage(
+  after: string,
+  beforeDateTime: string,
+): Promise<PastEventsPage | undefined> {
+  const response = await fetch(MEETUP_GRAPHQL_URL, {
+    method: "POST",
+    next: { revalidate: 3600 },
+    headers: {
+      "Content-Type": "application/json",
+      "User-Agent": MEETUP_USER_AGENT,
+    },
+    body: JSON.stringify({
+      operationName: "getPastGroupEvents",
+      variables: { urlname: "coding-bunker", after, beforeDateTime },
+      query: pastEventsQuery,
+    }),
+  })
+  if (!response.ok) return undefined
+
+  const payload = (await response.json()) as {
+    data?: {
+      groupByUrlname?: {
+        events?: {
+          totalCount?: number
+          pageInfo?: { endCursor?: string; hasNextPage?: boolean }
+          edges?: Array<{ node?: MeetupGraphQLEvent }>
+        }
+      }
+    }
+  }
+  const events = payload.data?.groupByUrlname?.events
+  if (!events) return undefined
+
+  return {
+    events: (events.edges || [])
+      .map(({ node }) => (node ? toMeetupEvent(node) : undefined))
+      .filter((event): event is MeetupEvent => Boolean(event)),
+    totalCount: events.totalCount,
+    endCursor: events.pageInfo?.endCursor,
+    hasNextPage: events.pageInfo?.hasNextPage === true,
+  }
+}
+
+export function deduplicateAndSortMeetupEvents(events: MeetupEvent[]) {
+  return [...new Map(events.map((event) => [event.id, event])).values()].sort(
+    (a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime(),
+  )
+}
+
 /**
  * Meetup does not provide a public, keyless event API for this group. Its public
  * event page includes the same event data in Next/Apollo state, which we read at
@@ -65,58 +265,37 @@ export async function fetchMeetupEvents(): Promise<MeetupEvent[]> {
       [EVENTS_URL, PAST_EVENTS_URL].map(async (url) => {
         const response = await fetch(url, {
           next: { revalidate: 3600 },
-          headers: {
-            "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)",
-          },
+          headers: { "User-Agent": MEETUP_USER_AGENT },
         })
         return response.ok ? getNextData(await response.text()) : undefined
       }),
     )
-    const events = pages.flatMap((page) => {
-      const state = (
-        page as
-          | {
-              props?: {
-                pageProps?: { __APOLLO_STATE__?: Record<string, ApolloRecord> }
-              }
-            }
-          | undefined
-      )?.props?.pageProps?.__APOLLO_STATE__
-      if (!state) return []
-      return Object.entries(state)
-        .filter(
-          ([, value]) =>
-            value.__typename === "Event" &&
-            value.id &&
-            value.title &&
-            value.dateTime &&
-            value.eventUrl,
-        )
-        .map(([key, event]) => {
-          const venueReference = event.venue?.__ref
-          const venue = venueReference ? state[venueReference] : undefined
-          const photoReference =
-            event.displayPhoto?.__ref || event.featuredEventPhoto?.__ref
-          const photo = photoReference ? state[photoReference] : undefined
-          return {
-            id: event.id || key,
-            title: event.title || "Evento Coding Bunker",
-            description: event.description || "",
-            dateTime: event.dateTime || "",
-            endTime: event.endTime,
-            eventUrl: event.eventUrl || EVENTS_URL,
-            status: event.status || "",
-            venue: venue?.name || null,
-            city: venue?.city || null,
-            attendeeCount: event.going?.totalCount ?? null,
-            coverImageUrl:
-              typeof photo?.highResUrl === "string" ? photo.highResUrl : null,
-          }
-        })
-    })
-    return [...new Map(events.map((event) => [event.id, event])).values()].sort(
-      (a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime(),
-    )
+    const [currentPage, initialPastPage] = pages.map(parseMeetupPage)
+    const pastEvents = [...initialPastPage.events]
+    const totalCount = initialPastPage.totalCount
+    let cursor = initialPastPage.endCursor
+    let hasNextPage = initialPastPage.hasNextPage
+    const beforeDateTime = initialPastPage.beforeDateTime
+
+    while (
+      hasNextPage &&
+      cursor &&
+      beforeDateTime &&
+      (totalCount === undefined ||
+        new Set(pastEvents.map((event) => event.id)).size < totalCount)
+    ) {
+      const nextPage = await fetchPastEventsPage(cursor, beforeDateTime)
+      if (!nextPage) break
+      pastEvents.push(...nextPage.events)
+      if (!nextPage.endCursor || nextPage.endCursor === cursor) break
+      cursor = nextPage.endCursor
+      hasNextPage = nextPage.hasNextPage
+    }
+
+    return deduplicateAndSortMeetupEvents([
+      ...currentPage.events,
+      ...pastEvents,
+    ])
   } catch {
     return []
   }
@@ -128,7 +307,7 @@ export async function fetchMeetupPastEventCount(): Promise<number | undefined> {
     const response = await fetch(EVENTS_URL, {
       next: { revalidate: 3600 },
       headers: {
-        "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)",
+        "User-Agent": MEETUP_USER_AGENT,
       },
     })
     if (!response.ok) return undefined
@@ -164,7 +343,7 @@ export async function fetchMeetupGroupStats(): Promise<MeetupGroupStats> {
     const response = await fetch(EVENTS_URL, {
       next: { revalidate: 3600 },
       headers: {
-        "User-Agent": "CodingBunkerWebsite/1.0 (+https://codingbunker.it)",
+        "User-Agent": MEETUP_USER_AGENT,
       },
     })
     if (!response.ok) return {}
@@ -206,11 +385,16 @@ export async function fetchMeetupGroupStats(): Promise<MeetupGroupStats> {
 export function splitMeetupEvents(events: MeetupEvent[], now = new Date()) {
   const current = now.getTime()
   return {
-    upcoming: events.filter(
-      (event) =>
-        new Date(event.dateTime).getTime() >= current &&
-        event.status !== "CANCELLED",
-    ),
+    upcoming: events
+      .filter(
+        (event) =>
+          new Date(event.dateTime).getTime() >= current &&
+          event.status !== "CANCELLED",
+      )
+      .sort(
+        (a, b) =>
+          new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime(),
+      ),
     past: events
       .filter(
         (event) =>

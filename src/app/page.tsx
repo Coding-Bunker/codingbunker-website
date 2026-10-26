@@ -406,15 +406,7 @@ export default async function Home() {
         {past.length ? (
           <div className="event-grid">
             {past.slice(0, 3).map((event) => (
-              <MeetupEventCard
-                event={event}
-                imageSrc={
-                  event.title.toLowerCase().includes("hacktoberfest")
-                    ? "/hacktoberfest-2026.jpeg"
-                    : undefined
-                }
-                key={event.id}
-              />
+              <MeetupEventCard event={event} key={event.id} />
             ))}
           </div>
         ) : (
