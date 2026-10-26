@@ -567,6 +567,21 @@
   background: var(--ink);
 }
 
+/* The next-event card prioritises the complete Meetup artwork over a crop. */
+.event-card--visual.event-card-featured .event-card-media {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  background: #120b25;
+}
+
+.event-card--visual.event-card-featured .event-card-photo {
+  object-fit: contain;
+}
+
+.event-card--visual.event-card-featured:hover .event-card-photo {
+  transform: none;
+}
+
 @keyframes event-card-arrive {
   from {
     opacity: 0;
